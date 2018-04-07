@@ -1,0 +1,13 @@
+extends layout
+
+//mixin contact(name)
+//    div(class="inline")
+//    h1=name
+
+block content
+
+    -var names=['Lidiya', 'Zakir', 'Zufar', 'Ilfat']
+    include ./contact.pug
+    each name in names
+        +contact(name)
+
