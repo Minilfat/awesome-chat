@@ -9,7 +9,16 @@ const config = require('config');
 const pug = require('pug');
 const morgan = require('morgan');
 
-const routes = require('./routes/index');
+// for auth
+var session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+// const passport = require('passport')
+
+// routes
+const indexRoute = require('./routes/index');
+const loginRoute = require('./routes/login');
+
+
 const commonData = require('./middlewares/common-data');
 const db = require('./db/node-postgres');
 
@@ -48,7 +57,8 @@ app.use((err, req, res, next) => {
 app.use(commonData);
 
 // Подключаем маршруты
-routes(app);
+indexRoute(app);
+loginRoute(app);
 
 // Фиксируем фатальную ошибку и отправляем ответ с кодом 500
 app.use((err, req, res, next) => {

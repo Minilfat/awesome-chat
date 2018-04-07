@@ -10,6 +10,4 @@ module.exports = app => {
     app.get('/contacts', function (req, res) {
         res.render('contacts', {...res.locals});
     });
-
-    app.all('*', error404);
 };
