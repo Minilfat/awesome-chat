@@ -8,11 +8,14 @@ module.exports = app => {
     });
 
     app.get('/contact-list', function (req, res) {
+        res.locals.contacts = ['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat'];
         res.render('contact-list', {...res.locals});
     });
 
     app.get('/contact', function (req, res) {
         res.render('contact', {...res.locals});
+    });
+
     app.get('/chat', function (req, res) {
         res.render('chat', {...res.locals});
     });

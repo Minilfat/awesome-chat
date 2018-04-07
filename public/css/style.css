@@ -41,6 +41,7 @@ a {
 .main {
   padding: 0 !important;
   margin: 0;
+  height: 100vh;
 }
 
 /* ----- Contacts list panel (right panel) ------ */
@@ -64,6 +65,14 @@ a {
   font-weight: 400;
 }
 
+.contact.active {
+  background-color: #13c299;
+}
+
+.contact:active {
+  background-color: #13c299;
+}
+
 .chat-title {
   margin-left: 15px;
 }
@@ -75,18 +84,22 @@ a {
 
 .contact-photo {
   padding-right: 10px;
+}
+
 .texter__send_btn {
-    margin: 0;
-    display: inline-block;
-    height: 26px;
-    width: 29px;
-    background-image: url('../images/send_btn.svg');
+  margin: 0;
+  display: inline-block;
+  height: 26px;
+  width: 29px;
+  background-image: url('../images/send_btn.svg');
 }
 
 /* ----- Messages panel ------ */
 .chats-body {
   position: fixed;
   bottom: 0;
+  overflow: scroll;
+  height: 70vh;
 }
 
 .message {
@@ -106,7 +119,7 @@ a {
 
 .message-send {
   position: fixed;
-  bottom: 90px;
+  bottom: 130px;
   margin-left: 25vw;
   padding: 25px;
   height: 50px;
