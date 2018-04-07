@@ -9,10 +9,13 @@ const config = require('config');
 const pug = require('pug');
 const morgan = require('morgan');
 
-const routes = require('./routes/index');
-const commonData = require('./middlewares/common-data');
-const db = require('./db/DBmodule');
 
+const session = require('express-session');
+const indexRoute = require('./routes/index');
+const loginRoute = require('./routes/login');
+const commonData = require('./middlewares/common-data');
+
+const db = require('./db/DBmodule');
 const app = express();
 
 // Подключаем шаблонизатор
@@ -40,15 +43,24 @@ app.use(bodyParser.urlencoded({
 // Выводим ошибку, если не смогли разобрать POST запрос, и продолжаем работу
 app.use((err, req, res, next) => {
     console.error(err.stack);
-
     next();
 });
+
+// настройка авторизации с использованием passport js
+app.use(session({
+    secret: 'your secret key',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(myPassport.initialize());
+app.use(myPassport.session());
 
 // Собираем общие данные для всех страниц приложения
 app.use(commonData);
 
 // Подключаем маршруты
-routes(app);
+indexRoute(app);
+loginRoute(app);
 
 // Фиксируем фатальную ошибку и отправляем ответ с кодом 500
 app.use((err, req, res, next) => {
