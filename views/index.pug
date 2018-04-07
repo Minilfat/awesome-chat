@@ -1,11 +1,16 @@
 extends layout
 
 block content
-  body
-    form(action='/login', method='POST')
-      p
-        | login:
-        input(type='text', name='login', value='')
-        |         password:
-        input(type='password', name='password', value='')
-      input(type='submit', value='Login')
+  div(id="login-form")
+      form(action="/login", method='POST')
+          div(class="form-group")
+              label(for="email") Email address:
+                  input(type="email" class="form-control" id="email")
+          div(class="form-group")
+              label(for="pwd") Password:
+                  input(type="password" class="form-control" id="pwd")
+          div(class="checkbox")
+              label
+                  input(type="checkbox")
+                  Remember Remember me
+          button(type="submit" value="login" class="btn btn-default") Submit
