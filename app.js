@@ -47,7 +47,7 @@ app.use((err, req, res, next) => {
 });
 
 
-require('./auth/init-passport')(passport);
+require('./auth/localStrategy')(passport);
 
 // настройка авторизации с использованием passport js
 app.use(session({

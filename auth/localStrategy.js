@@ -6,7 +6,7 @@ const user = {
     email: 'qwe@a.ru',
     password: 'test',
     display: function() {
-        return this.login + ' ' + this.password;
+        return this.email + ' ' + this.password;
     }
 }
 
