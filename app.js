@@ -14,10 +14,8 @@ const session = require('express-session');
 const indexRoute = require('./routes/index');
 const loginRoute = require('./routes/login');
 const commonData = require('./middlewares/common-data');
-const myPassport = require('./auth/init');
 
-const db = require('./db/node-postgres');
-
+const db = require('./db/DBmodule');
 const app = express();
 
 // Подключаем шаблонизатор
