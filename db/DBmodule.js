@@ -7,8 +7,8 @@ pool.connect();
 const createUsers = pool.query('CREATE TABLE IF NOT EXISTS users (login VARCHAR(50) PRIMARY KEY, password VARCHAR(50) NOT NULL, alias VARCHAR(50))');
 const createChats = pool.query('CREATE TABLE IF NOT EXISTS chats (chat_id SERIAL PRIMARY KEY, name VARCHAR(50) NOT NULL, participants INTEGER NOT NULL)');
 const createMessages = pool.query('CREATE TABLE IF NOT EXISTS messages (message_id SERIAL PRIMARY KEY, login VARCHAR(50) REFERENCES users ON DELETE CASCADE, text TEXT NOT NULL, date_time TIMESTAMP NOT NULL)');
-const createUsersChats = pool.query('CREATE TABLE IF NOT EXISTS users_chats (login VARCHAR(50) REFERENCES users ON DELETE CASCADE, chat_id REFERENCES chats ON DELETE CASCADE)');
-const createMessagesChats = pool.query('CREATE TABLE IF NOT EXISTS messages_chats (message_id INTEGER REFERENCES messages ON DELETE CASCADE, chat_id REFERENCES chats ON DELETE CASCADE)');
+const createUsersChats = pool.query('CREATE TABLE IF NOT EXISTS users_chats (login VARCHAR(50) REFERENCES users ON DELETE CASCADE, chat_id INTEGER REFERENCES chats ON DELETE CASCADE)');
+const createMessagesChats = pool.query('CREATE TABLE IF NOT EXISTS messages_chats (message_id INTEGER REFERENCES messages ON DELETE CASCADE, chat_id INTEGER REFERENCES chats ON DELETE CASCADE)');
 
 function saveUser(login, password, alias=null) {
     return pool.query('INSERT INTO users VALUES($1, $2, $3)', [login, password, alias]);
