@@ -17,10 +17,25 @@ module.exports = (app) => {
         })
     });
 
+    app.get('/contact-list', function (req, res) {
+        res.render('contact-list', {...res.locals});
+    });
+
+    app.get('/contact', function (req, res) {
+        res.render('contact', {...res.locals});
+    });
+
+    app.get('/chat', function (req, res) {
+        res.render('chat', {...res.locals});
+    });
+
+    app.get('/register', function (req, res) {
+        res.render('register', {...res.locals});
+    });
+    
     app.get('/fail', (req, res) => res.send(401, {success : false, message : 'authentication failed' }))
 
     app.all('/chats/*', authRequired, (req,res) => {
         res.render('test', {username: req.session.user});
     });
-    // app.all('chats/*', authRequired);
 };

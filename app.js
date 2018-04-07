@@ -12,11 +12,10 @@ const session = require('express-session');
 const passport = require('passport');
 
 
-const routes = require('./routes/index');
+const indexRoute = require('./routes/index');
 const commonData = require('./middlewares/common-data');
 
-const db = require('./db/node-postgres');
-
+const db = require('./db/DBmodule');
 const app = express();
 
 // Подключаем шаблонизатор
@@ -63,8 +62,8 @@ app.use(passport.session());
 app.use(commonData);
 
 // Подключаем маршруты
-routes(app);
-// loginRoute(app);
+indexRoute(app);
+
 
 // Фиксируем фатальную ошибку и отправляем ответ с кодом 500
 app.use((err, req, res, next) => {
