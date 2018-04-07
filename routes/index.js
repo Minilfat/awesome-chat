@@ -24,7 +24,8 @@ module.exports = (app) => {
 
     // по этомму маршруту может пройти только авторизованный пользователь
     app.get('/chat', authRequired(), (req, res) => {
-        res.render('chat', {username: req.user.display()});
+        res.render('chat', {username: req.user.getLogin(), 
+                            info: req.user.display()});
     });
 
     

@@ -9,7 +9,7 @@ class User {
     }
 
     display() {
-      console.log(this.login + " " + this.password + " " + this.alias);
+      return this.login + " " + this.password + " " + this.alias;
     }
 
     getLogin() {
