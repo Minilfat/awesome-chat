@@ -6,7 +6,10 @@ const authenticationMiddleware = require('../middlewares/auth-middleware')
 
 const user = {
     login: 'test',
-    password: 'test'
+    password: 'test',
+    display: function() {
+        return this.login + ' ' + this.password;
+    }
 }
 
 
@@ -21,9 +24,9 @@ passport.serializeUser(function (user, cb) {
     cb(null, user.login)
   })
   
-  passport.deserializeUser(function (login, cb) {
+passport.deserializeUser(function (login, cb) {
     findUser(login, cb)
-  })
+})
 
 
 passport.use(new LocalStrategy({

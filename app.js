@@ -9,17 +9,13 @@ const config = require('config');
 const pug = require('pug');
 const morgan = require('morgan');
 
-// for auth
-var session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-// const passport = require('passport')
 
-// routes
+const session = require('express-session');
 const indexRoute = require('./routes/index');
 const loginRoute = require('./routes/login');
-
-
 const commonData = require('./middlewares/common-data');
+const myPassport = require('./auth/init');
+
 const db = require('./db/node-postgres');
 
 const app = express();
@@ -49,9 +45,17 @@ app.use(bodyParser.urlencoded({
 // Выводим ошибку, если не смогли разобрать POST запрос, и продолжаем работу
 app.use((err, req, res, next) => {
     console.error(err.stack);
-
     next();
 });
+
+// настройка авторизации с использованием passport js
+app.use(session({
+    secret: 'your secret key',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(myPassport.initialize());
+app.use(myPassport.session());
 
 // Собираем общие данные для всех страниц приложения
 app.use(commonData);

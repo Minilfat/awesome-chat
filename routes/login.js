@@ -8,10 +8,10 @@ module.exports = app => {
 
     app.post('/login', passport.authenticate('local', {
         successRedirect: '/checklogin',
-        failureRedirect: '/'
+        failureRedirect: '/sdfsdf'
     }));
 
     app.get('/checklogin', passport.authenticationMiddleware(), (req, res) => {
-        res.render('test', {username: 'logged'});
+        res.render('test', {username: req.user.display()});
     });
 };
