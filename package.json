@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rimraf node_modules/",
     "start": "NODE_ENV=production node app.js",
-    "dev": "NODE_ENV=development nodemon --inspect app.js",
+    "dev": "cross-env NODE_ENV=development nodemon —inspect app.js",
     "test": "NODE_ENV=testing mocha",
     "lint": "npm-run-all lint:*",
     "lint:css": "stylelint ./**/*.css",
@@ -20,15 +20,18 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
-    "hbs": "^4.0.1",
+    "express-session": "^1.15.6",
     "morgan": "~1.9.0",
+    "passport": "^0.4.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
     "pug": "2.0.0-beta11",
-    "sequelize": "^4.37.5",
-    "vue": "^2.5.16"
+    "sequelize": "^4.37.5"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "cross-env": "^5.1.4",
     "eslint": "4.18.1",
     "eslint-config-xo": "0.20.1",
     "mocha": "^5.0.5",

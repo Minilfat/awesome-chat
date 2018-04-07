@@ -9,11 +9,29 @@ body {
 textarea { resize: none; }
 
 a {
-  color: #00b7ff;
+    color: #00b7ff;
 }
 
-#login-form {
-  margin: 50px auto;
+.chat {
+    height: 100%;
+    background-color: #00b7ff;
+}
+
+.dialog_block {
+    display: flex;
+    background-color: aquamarine;
+}
+
+.avatar {
+}
+
+.texter {
+    margin:5px;
+}
+
+.texter__textarea {
+    min-height: 30px;
+    resize: vertical;
 }
 
 .inline {
@@ -57,6 +75,12 @@ a {
 
 .contact-photo {
   padding-right: 10px;
+.texter__send_btn {
+    margin: 0;
+    display: inline-block;
+    height: 26px;
+    width: 29px;
+    background-image: url('../images/send_btn.svg');
 }
 
 /* ----- Messages panel ------ */

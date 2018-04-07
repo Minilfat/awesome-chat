@@ -13,7 +13,11 @@ module.exports = app => {
 
     app.get('/contact', function (req, res) {
         res.render('contact', {...res.locals});
+    app.get('/chat', function (req, res) {
+        res.render('chat', {...res.locals});
     });
 
-    app.all('*', error404);
+    app.get('/register', function (req, res) {
+        res.render('register', {...res.locals});
+    });
 };
