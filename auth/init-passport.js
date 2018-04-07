@@ -1,8 +1,6 @@
-const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
-const authenticationMiddleware = require('../middlewares/auth-middleware')
-
+const User = require('../models/User')
 
 const user = {
     login: 'test',
@@ -13,24 +11,25 @@ const user = {
 }
 
 
-function findUser (login, callback) {
+function findUser(login, callback) {
     if (login === user.login) {
       return callback(null, user)
     }
     return callback(null)
 }
 
-passport.serializeUser(function (user, cb) {
+module.exports = function(passport) {
+  passport.serializeUser(function (user, cb) {
     cb(null, user.login)
-  })
-  
-passport.deserializeUser(function (login, cb) {
+  });
+
+  passport.deserializeUser(function (login, cb) {
     findUser(login, cb)
-})
+  })
 
 
-passport.use(new LocalStrategy({
-        usernameField: 'login',
+  passport.use(new LocalStrategy({
+        usernameField: 'email',
         passwordField: 'password'
     },
     (login, password, done) => {
@@ -41,14 +40,11 @@ passport.use(new LocalStrategy({
 
         // User not found
         if (!user) {
-          console.log('User not found')
-          return done(null, false)
+          return done(null, false, {message: 'Wrong username or password!'})
         }
 
         return done(null, user);
       })
     }
-));
-
-passport.authenticationMiddleware = authenticationMiddleware;
-module.exports = passport;
+  ));
+}
