@@ -1,26 +1,39 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  color: red;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    color: red;
 }
 
 a {
-  color: #00b7ff;
+    color: #00b7ff;
 }
 
-#login-form {
-  margin: 50px auto;
+.chat {
+    height: 100%;
+    background-color: #00b7ff;
 }
 
-.inline {
-  display: inline-block;
+.dialog_block {
+    display: flex;
+    background-color: aquamarine;
 }
 
-.contact {
-  border: 1px solid #c3c3c3;
-  padding: 10px 20px;
+.avatar {
 }
 
-.contact-photo {
-  padding-right: 10px;
+.texter {
+    margin:5px;
+}
+
+.texter__textarea {
+    min-height: 30px;
+    resize: vertical;
+}
+
+.texter__send_btn {
+    margin: 0;
+    display: inline-block;
+    height: 26px;
+    width: 29px;
+    background-image: url('../images/send_btn.svg');
 }
