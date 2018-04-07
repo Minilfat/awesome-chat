@@ -52,8 +52,8 @@ require('./auth/localStrategy')(passport);
 // настройка авторизации с использованием passport js
 app.use(session({
     secret: 'your secret key',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
