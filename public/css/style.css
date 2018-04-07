@@ -7,3 +7,20 @@ body {
 a {
   color: #00b7ff;
 }
+
+#login-form {
+  margin: 50px auto;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.contact {
+  border: 1px solid #c3c3c3;
+  padding: 10px 20px;
+}
+
+.contact-photo {
+  padding-right: 10px;
+}

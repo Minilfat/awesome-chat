@@ -52,14 +52,8 @@ routes(app);
 
 // Фиксируем фатальную ошибку и отправляем ответ с кодом 500
 app.use((err, req, res, next) => {
-    if (config.get('debug')) {
-        // В debug-режиме выводим информацию об ошибке на страницу
-        res.render('error', err);
-    } else {
-        console.error(err.stack);
-
-        res.sendStatus(500);
-    }
+    console.error(err.stack);
+    res.sendStatus(500);
 });
 
 app.listen(config.get('port'), () => {

@@ -7,5 +7,9 @@ module.exports = app => {
         res.render('index', {...res.locals});
     });
 
+    app.get('/contacts', function (req, res) {
+        res.render('contacts', {...res.locals});
+    });
+
     app.all('*', error404);
 };
