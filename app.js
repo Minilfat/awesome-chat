@@ -11,7 +11,7 @@ const morgan = require('morgan');
 
 const routes = require('./routes/index');
 const commonData = require('./middlewares/common-data');
-const db = require('./db/node-postgres');
+const db = require('./db/DBmodule');
 
 const app = express();
 
