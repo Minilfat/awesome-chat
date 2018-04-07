@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local').Strategy
 const User = require('../models/User')
 
 const user = {
-    login: 'test',
+    email: 'qwe@a.ru',
     password: 'test',
     display: function() {
         return this.login + ' ' + this.password;
@@ -11,8 +11,8 @@ const user = {
 }
 
 
-function findUser(login, callback) {
-    if (login === user.login) {
+function findUser(email, callback) {
+    if (email === user.email) {
       return callback(null, user)
     }
     return callback(null)
@@ -20,11 +20,11 @@ function findUser(login, callback) {
 
 module.exports = function(passport) {
   passport.serializeUser(function (user, cb) {
-    cb(null, user.login)
+    cb(null, user.email)
   });
 
-  passport.deserializeUser(function (login, cb) {
-    findUser(login, cb)
+  passport.deserializeUser(function (email, cb) {
+    findUser(email, cb)
   })
 
 
@@ -32,8 +32,8 @@ module.exports = function(passport) {
         usernameField: 'email',
         passwordField: 'password'
     },
-    (login, password, done) => {
-      findUser(login, (err, user) => {
+    (email, password, done) => {
+      findUser(email, (err, user) => {
         if (err) {
           return done(err)
         }
