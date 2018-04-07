@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    div(id="register-form")
+        form(action="/register", method='POST')
+            div(class="form-group")
+                label(for="alias") Alias
+                    input(type="email" class="form-control" id="alias")
+            div(class="form-group")
+                label(for="email") Email address:
+                    input(type="email" class="form-control" id="email")
+            div(class="form-group")
+                label(for="pwd") Password:
+                    input(type="password" class="form-control" id="pwd")
+            div(class="checkbox")
+                label
+                    input(type="checkbox")
+                    Remember Remember me
+            button(type="submit" value="login" class="btn btn-default") Submit

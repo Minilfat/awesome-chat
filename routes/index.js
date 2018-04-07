@@ -7,7 +7,11 @@ module.exports = app => {
         res.render('index', {...res.locals});
     });
 
-    app.get('/contacts', function (req, res) {
-        res.render('contacts', {...res.locals});
+    app.get('/chat', function (req, res) {
+        res.render('chat', {...res.locals});
+    });
+
+    app.get('/register', function (req, res) {
+        res.render('register', {...res.locals});
     });
 };
