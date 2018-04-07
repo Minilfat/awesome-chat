@@ -10,9 +10,8 @@ block content
                 each name in names
                     +contact(name)
         div(class="col-sm-9 inline chats-body")
-            -var names=['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat']
-            each name in names
-                +contact(name)
+            -var messages=['Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ']
+            each msg in messages
+                +message(msg)
         div(class="message-send col-sm-8 form-group")
             textarea(type="text" class="form-control col-sm-5" id="send-message-text")
-
