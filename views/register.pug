@@ -5,15 +5,18 @@ block content
         form(action="/register", method='POST')
             div(class="form-group")
                 label(for="alias") Alias
-                    input(type="text" class="form-control" id="alias")
+                    input(type="text" class="form-control" name="alias" id="alias")
             div(class="form-group")
                 label(for="email") Email address:
-                    input(type="email" class="form-control" id="email")
+                    input(type="email" class="form-control" name="email" id="email")
             div(class="form-group")
                 label(for="pwd") Password:
-                    input(type="password" class="form-control" id="pwd")
+                    input(type="password" class="form-control" name="password" id="pwd")
             div(class="checkbox")
                 label
                     input(type="checkbox")
                     Remember Remember me
             button(type="submit" value="login" class="btn btn-default") Submit
+            #message
+            if message
+                h1.text-center.error-message #{message}
