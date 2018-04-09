@@ -1,0 +1,43 @@
+.main {
+    background-color: rebeccapurple;
+    width: 300px;
+    margin:0 auto;
+    text-align: center;
+}
+
+.profile_info {
+    display: block;
+    margin: 10px;
+}
+
+.info {
+    text-align: left;
+}
+
+.change_pswd_btn {
+    display: block;
+    margin: 10px;
+}
+
+.card {
+    margin: 10px;
+    padding: 10px;
+    width:300px;
+    align-content: center;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+}
+
+.change_pswd_form {
+    display: block;
+    visibility: visible;
+
+}
+
+.visible {
+    visibility: visible;
+}
+
+.invisible {
+    visibility: hidden;
+}

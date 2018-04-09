@@ -1,0 +1,26 @@
+extends layout
+include ./contact
+include ./message
+
+block style
+    link(rel='stylesheet', href='css/profile.css')
+
+block content
+    div(class="card text-white bg-primary")
+        div(class="card_body")
+            div(class="profile_info")
+                img(class="inline contact-photo" src="images/ellipse.svg")
+                div(class="inline info")
+                    div(class="profile__nickname") Даша следопыт
+                    div(class="profile__email") zokan20@ramble.rur
+            div(class="change_pswd_btn btn btn-info" id="change_password") Change password
+            div(class="change_pswd_form")
+                form(action='/change_password', method='POST')
+                    p
+                        | Old Password:
+                        input(type='password', name='oldPassword1', value='')
+                        | Again:
+                        input(type='password', name='oldPassword2', value='')
+                        | New Password:
+                        input(type='password', name='newPassword', value='')
+                    input(type='', value='changePassword')
