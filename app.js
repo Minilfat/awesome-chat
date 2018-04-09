@@ -16,7 +16,6 @@ const loginRoute = require('./routes/login');
 const commonData = require('./middlewares/common-data');
 const myPassport = require('./auth/init');
 
-//const db = require('./db/node-postgres');
 
 const app = express();
 
