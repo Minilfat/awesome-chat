@@ -10,6 +10,8 @@ const pug = require('pug');
 const morgan = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
+const flash = require('connect-flash');
+
 
 
 const indexRoute = require('./routes/index');
@@ -57,7 +59,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash());
 // Собираем общие данные для всех страниц приложения
 app.use(commonData);
 

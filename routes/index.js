@@ -1,22 +1,32 @@
 'use strict';
 
+const passport = require('passport');
+
 const {error404} = require('../controllers/errors');
 const authRequired = require('../middlewares/isAuthRequired');
-const login = require('../controllers/login');
 const logout = require('../controllers/logout');
+
 
 
 module.exports = (app) => {
 
-    app.get('/', (req, res) => res.render('index', {...res.locals}));
+    app.get('/', (req, res) => res.render('index', {message: req.flash('message')}));
 
 
     app.get('/login', (req, res) => res.render('index', {...res.locals}));
-    app.post('/login', login(), (req, res) => res.redirect('chat')); 
+    app.post('/login', passport.authenticate('login', {
+        successRedirect: '/chat',
+        failureRedirect: '/',
+        failureFlash : true
+    }));
     app.get('/logout', (req, res) => logout(req,res));
 
-    app.get('/register', (req, res) => res.render('register', {...res.locals}));
-    app.post('/register', (req, res) => res.render('register', {...res.locals}));
+    app.get('/register', (req, res) => res.render('register', {message: req.flash('message')}));
+    app.post('/register', passport.authenticate('register', {
+        successRedirect: '/chat',
+        failureRedirect: '/register',
+        failureFlash : true 
+    }));
 
     app.get('/contact-list', (req, res) => res.render('contact-list', {...res.locals}));
 
