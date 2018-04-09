@@ -11,16 +11,16 @@ block content
             div(class="profile_info")
                 img(class="inline contact-photo" src="images/ellipse.svg")
                 div(class="inline info")
-                    div(class="profile__nickname") Даша следопыт
-                    div(class="profile__email") zokan20@ramble.rur
+                    div(class="profile__nickname") #{alias}
+                    div(class="profile__email") #{email}
             div(class="change_pswd_btn btn btn-info" id="change_password") Change password
             div(class="change_pswd_form")
-                form(action='/change_password', method='POST')
+                form(action='/changePassword', method='POST')
                     p
                         | Old Password:
-                        input(type='password', name='oldPassword1', value='')
+                        input(type='password', name='oldPswd', value='')
                         | Again:
                         input(type='password', name='oldPassword2', value='')
                         | New Password:
-                        input(type='password', name='newPassword', value='')
-                    input(type='', value='changePassword')
+                        input(type='password', name='newPswd', value='')
+                    input(type='submit', value='changePassword')

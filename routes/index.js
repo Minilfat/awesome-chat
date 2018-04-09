@@ -32,10 +32,14 @@ module.exports = (app) => {
 
     app.get('/contact', (req, res) => res.render('contact', {...res.locals}));
 
+    app.get('/profile', authRequired(), (req, res) => res.render('profile', {alias: req.user.alias,
+                                                                             email: req.user.email}));
+
     // по этомму маршруту может пройти только авторизованный пользователь
     app.get('/chat', authRequired(), (req, res) => {
-        res.render('chat', {username: req.user.getLogin(), 
-                            info: req.user.display()});
+        console.log(req.user);
+        res.render('chat', {username: req.user.login, 
+                            info: req.user.id});
     });
 
     
