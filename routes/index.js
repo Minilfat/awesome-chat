@@ -38,5 +38,6 @@ module.exports = (app) => {
                             info: req.user.display()});
     });
 
-    
+
+
 };
