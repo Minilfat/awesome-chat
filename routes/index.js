@@ -13,7 +13,7 @@ module.exports = (app) => {
     app.get('/', (req, res) => res.render('index', {message: req.flash('message')}));
 
 
-    app.get('/login', (req, res) => res.render('index', {...res.locals}));
+    app.get('/login', (req, res) => res.render('index', {message: req.flash('message')}));
     app.post('/login', passport.authenticate('login', {
         successRedirect: '/chat',
         failureRedirect: '/',
