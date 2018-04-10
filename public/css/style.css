@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
-
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
 /* -----General------ */
 body {
-  font-family: 'Open Sans', sans-serif;
-  color: red;
+  font-family: 'Open Sans', sans-serif !important;
 }
 
 textarea { resize: none; }
@@ -41,6 +39,7 @@ a {
 .main {
   padding: 0 !important;
   margin: 0;
+  height: 100vh;
 }
 
 /* ----- Contacts list panel (right panel) ------ */
@@ -64,6 +63,18 @@ a {
   font-weight: 400;
 }
 
+.contact.active {
+  background-color: #4c9589;
+}
+
+.contact.active:hover {
+  background-color: #4c9589;
+}
+
+.contact.active:active {
+  background-color: #4c9589;
+}
+
 .chat-title {
   margin-left: 15px;
 }
@@ -74,26 +85,82 @@ a {
 }
 
 .contact-photo {
-    padding-right: 10px;
+  padding-right: 10px;
 }
 
 .texter__send_btn {
-    margin: 0;
-    display: inline-block;
-    height: 26px;
-    width: 29px;
-    background-image: url('../images/send_btn.svg');
+  margin: 0;
+  display: inline-block;
+  height: 26px;
+  width: 29px;
+  background-image: url('../images/send_btn.svg');
+}
+
+/* ----- Header panel ------ */
+#header {
+  margin: 0 0 0 20vw;
+  padding: 0;
+  width: 80vw;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.logout-link-container {
+  margin: 0 15px;
+}
+
+/* Search */
+
+.search-sontainer {
+  width: 150px;
+  margin: 0 15px;
+}
+input[type=text] {
+  margin-top: 4px;
+  padding: 10px 10px 10px 35px !important;
+  width: 70%;
+  border: 2px solid #d6d6d6;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: transparent;
+  background-image: url('../images/searchicon.svg');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+  outline: none;
+}
+/* When the input field gets focus, change its width to 100% */
+input[type=text]:focus {
+  width: 100%;
+  outline: none;
+
 }
 
 /* ----- Messages panel ------ */
 .chats-body {
-  position: fixed;
-  bottom: 0;
+  overflow: scroll;
+  width: 80vw;
+  height: 80vh;
+  border-bottom: 1px solid #dcdcdc;
+}
+
+#send-message-text {
+  border: 2px solid #d6d6d6;
+  border-radius: 5px;
+  width: 90%;
 }
 
 .message {
-  padding: 15px;
-  margin: 20px;
+  padding: 5px;
+  margin: 10px;
   border: 1px solid #ececec;
   border-radius: 5px;
 }
@@ -104,12 +171,21 @@ a {
 
 .message-text {
   color: #7a6879;
+  font-size: 13px;
+}
+
+#send-message-btn {
+  margin: -40px 0 0 14px;
+}
+
+#send-message-btn:hover {
+  cursor: pointer;
+  margin-left: 20px;
+
 }
 
 .message-send {
-  position: fixed;
-  bottom: 90px;
-  margin-left: 25vw;
+  width: 70vw;
   padding: 25px;
   height: 50px;
 }

@@ -28,7 +28,7 @@ module.exports = (app) => {
     app.post('/register', passport.authenticate('register', {
         successRedirect: '/chat',
         failureRedirect: '/register',
-        failureFlash : true 
+        failureFlash : true
     }));
 
     app.get('/contact-list', (req, res) => res.render('contact-list', {...res.locals}));
@@ -67,6 +67,10 @@ module.exports = (app) => {
         })
     });
 
+    app.get('/contact-list', function (req, res) {
+        res.locals.contacts = ['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat'];
+        res.render('contact-list', {...res.locals})
+    });
     app.post('/user/changeEmail', authRequired(), (req, res) => {
         changeEmail(req, res, (err, user) => {
             if (err) {
@@ -79,12 +83,22 @@ module.exports = (app) => {
         })
     });
 
+    app.get('/contact', function (req, res) {
+        res.render('contact', {...res.locals});
+    });
+
+    app.get('/chat', function (req, res) {
+        res.render('chat', {...res.locals});
+    });
     // по этомму маршруту может пройти только авторизованный пользователь
     app.get('/chat', authRequired(), (req, res) => {
         res.render('chat', {
             username: req.user.password,
             info: req.user.id
         });
+    });
 
+    app.get('/register', function (req, res) {
+        res.render('register', {...res.locals});
     });
 };

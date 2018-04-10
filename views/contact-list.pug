@@ -3,15 +3,27 @@ include ./contact
 include ./message
 
 block content
+    -var i = 0;
     div(class="col-sm-12 main")
         div(class="col-sm-2 left-panel")
+
             div(class="contact-list-panel")
-                -var names=['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat']
-                each name in names
-                    +contact(name)
-        div(class="col-sm-9 inline chats-body")
-            -var messages=['Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ']
-            each msg in messages
-                +message(msg)
-        div(class="message-send col-sm-8 form-group")
-            textarea(type="text" class="form-control col-sm-5" id="send-message-text")
+                // To use backend contacts: var contacts = loadUserContacts();
+                // +contact(contact.name, contact.id)
+                -var contacts = ['Lidiya', 'Lidiya', 'Lidiya', 'Lidiya', 'Lidiya']
+                each contact in contacts
+                    +contact(contact, i++)
+        div(id="header")
+            div(class="col-sm-4")
+                h4 Hello, Lidiya!
+            div(class="search-container col-sm-offset-5")
+                input(type="text" name="search" placeholder="Search..")
+            div(class="logout-link-container")
+                a(href="#" class="logout-link") Logout
+        div(class="inline chats-body" id="messages-body-id")
+            p You should choose a chat
+        div(class="message-send inline")
+            textarea(type="text" class="inline" id="send-message-text")
+            img(src='../images/send_btn.svg' class='inline' id="send-message-btn" onclick='addMessage()')
+    script(src="../javascripts/addMessage.js")
+    script(src="../javascripts/backendUrls.js")
