@@ -8,7 +8,7 @@ function loadUserContacts() {
 
 function loadChatMessages() {
     // TODO write url
-    return ['thetr', 'hi there'];
+    return ['thetr', 'hi there', 'thetr', 'hi there', 'thetr', 'hi there', 'thetr', 'hi there', 'thetr', 'hi there'];
 }
 
 function sendMessage(reciever) {

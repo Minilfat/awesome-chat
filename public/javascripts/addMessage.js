@@ -48,6 +48,9 @@ function showMessageOnScreen(text, sender) {
         '            <img class="inline contact-photo" src="images/ellipse.svg">\n' +
         '            <div class="inline message-text">\n' +
         '                <p>' + sender + '</p><p>' + text + '</p></div></div></div>');
+
+    var objDiv = document.getElementById('messages-body-id');
+    objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 /**
@@ -79,3 +82,4 @@ function chooseChat(el, id) {
         showMessageOnScreen(messages[i]);
     }
 }
+
