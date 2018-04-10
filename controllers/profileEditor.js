@@ -1,6 +1,7 @@
 const bCrypt = require('bcrypt-nodejs');
 
 const updatePasswd = require('../db/DBmodule').updateUserPassword;
+const updateAlias = require('../db/DBmodule').updateUserAlias;
 
 function passwordsEqual(rawPasswd, hashPasswd){
     return bCrypt.compareSync(rawPasswd, hashPasswd);
@@ -36,11 +37,37 @@ function changePassword(req, resp, done) {
             .catch(err => {
                 console.error('Error executing query', err.stack)
                 return done(err);
-            })
+            });
     }
 }
 
-module.exports = changePassword;
+
+function changeAlias(req, resp, done) {
+
+    let newAlias = req.body.newAlias;
+    let user = req.user;
+
+    
+    updatePasswd(newAlias, user.id)
+        .then(res => {
+            if (checkResult(res)) {
+                console.log('Alias for user ' + user.id + ' was updated');
+                user.alias = newAlias;
+                return done(null, user);
+            }
+            return done(null);
+        })
+        .catch(err => {
+            console.error('Error executing query', err.stack)
+            return done(err);
+        });
+    
+}
+
+module.exports = {
+    changePassword,
+    changeAlias
+}
 
 // module.exports = (req, res, next) => {
 

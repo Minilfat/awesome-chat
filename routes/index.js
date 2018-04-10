@@ -5,7 +5,8 @@ const passport = require('passport');
 const {error404} = require('../controllers/errors');
 const authRequired = require('../middlewares/isAuthRequired');
 const logout = require('../controllers/logout');
-const changePassword = require('../controllers/profileEditor');
+const changePassword = require('../controllers/profileEditor').changePassword;
+const changeAlias = require('../controllers/profileEditor').changeAlias;
 
 
 
@@ -46,7 +47,21 @@ module.exports = (app) => {
             }
                 
         })
-    })                                                 
+    });
+
+    app.get('/alias', authRequired(), (req, res) => res.render('aliasChangeTest'));
+    
+    app.post('/user/changeAlias', authRequired(), (req, res) => {
+        changeAlias(req, res, (err, user) => {
+            if (err) {
+                console.log('error happened');    
+            }
+            if (user) {
+                res.redirect('/profile');
+            }
+                
+        })
+    });  
 
     // по этомму маршруту может пройти только авторизованный пользователь
     app.get('/chat', authRequired(), (req, res) => {
