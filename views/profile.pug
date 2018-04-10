@@ -11,11 +11,11 @@ block content
             div(class="profile_info")
                 img(class="inline contact-photo" src="images/ellipse.svg")
                 div(class="inline info")
-                    div(class="profile__nickname") #{alias}
-                    div(class="profile__email") #{email}
+                    div(class="profile__nickname") User's alias: #{alias}
+                    div(class="profile__email") User's email: #{email}
             div(class="change_pswd_btn btn btn-info" id="change_password") Change password
             div(class="change_pswd_form")
-                form(action='/changePassword', method='POST')
+                form(action='/user/changePassword', method='POST')
                     p
                         | Old Password:
                         input(type='password', name='oldPswd', value='')

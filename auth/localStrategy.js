@@ -25,10 +25,9 @@ function findUser(email, password, callback) {
     .then(res => {
       if (checkResult(res)) {
           if (email === res.rows[0].login && passwordsEqual(password, res.rows[0].password)) {
-            let user = new User(res.rows[0].login,res.rows[0].password,res.rows[0].alias);
+            let user = new User(res.rows[0].user_id, res.rows[0].login, res.rows[0].password, res.rows[0].alias);
             return callback(null, user);
           } else {
-            //TODO: add id information to logs
             console.log('Invalid password or username: ' + res.rows[0].user_id);
           }
       };
@@ -38,8 +37,6 @@ function findUser(email, password, callback) {
       console.error('Error executing query', err.stack)
       return callback(err);
     });
-
-    // $2a$10$bSBMuJbM6SY/s8YXjdFIbufmFTx31ec7jPZTmKnERJAXT2Zzpbo2q
 }
 
 
