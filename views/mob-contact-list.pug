@@ -1,0 +1,10 @@
+extends layout
+include ./contact
+
+block content
+    div(class=" main")
+        div(class=" left-panel")
+            div(class="contact-list-panel")
+                -var names=['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat']
+                each name in names
+                    +contact(name)

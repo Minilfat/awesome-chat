@@ -1,13 +1,14 @@
-extends layout
+mixin registerForm
+    include ./messageAlert
 
-block content
     div(id="register-form")
+        +messageAlert
         form(action="/register", method='POST')
             div(class="form-group")
-                label(for="alias") Alias
+                label(for="alias") @lias
                     input(type="text" class="form-control" name="alias" id="alias")
             div(class="form-group")
-                label(for="email") Email address:
+                label(for="email") E-mail:
                     input(type="email" class="form-control" name="email" id="email")
             div(class="form-group")
                 label(for="pwd") Password:
@@ -15,8 +16,5 @@ block content
             div(class="checkbox")
                 label
                     input(type="checkbox")
-                    Remember Remember me
-            button(type="submit" value="login" class="btn btn-default") Submit
-            #message
-            if message
-                h1.text-center.error-message #{message}
+                    Remember  Remember me
+            button(type="submit" value="login" class="btn btn-warning") Submit

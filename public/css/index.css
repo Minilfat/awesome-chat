@@ -1,0 +1,27 @@
+.stripes-background {
+    width: 100vw;
+    height: 100vh;
+    background-image: repeating-linear-gradient(45deg, #ccc, #ccc 30px, #4c394b 30px, #4c394b 60px);
+}
+
+.label {
+    font-size: xx-large;
+    color: white;
+    text-shadow: 0 0 25px white, 0 0 25px white; /* Параметры тени */
+}
+
+.login-form {
+    position: relative;
+    margin: 0 auto;
+    width: 320px;
+    display: flex;
+    align-items: center;
+}
+
+.login-form-wrapper a {
+    color: white;
+}
+
+.login-form-wrapper a:hover {
+     color: white;
+}

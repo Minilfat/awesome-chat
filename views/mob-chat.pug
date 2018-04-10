@@ -1,0 +1,11 @@
+extends layout
+include ./message
+
+block content
+    div(class="main")
+        div(class="inline chats-body")
+            -var messages=['Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ', 'Hello! How are you? What are you doing today? ']
+            each msg in messages
+                +message(msg)
+        div(class="message-send form-group")
+            textarea(type="text" class="form-control col-sm-5" id="send-message-text")

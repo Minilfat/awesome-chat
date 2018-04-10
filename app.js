@@ -8,15 +8,16 @@ const bodyParser = require('body-parser');
 const config = require('config');
 const pug = require('pug');
 const morgan = require('morgan');
-
-
 const session = require('express-session');
+const passport = require('passport');
+const flash = require('connect-flash');
+
+
+
 const indexRoute = require('./routes/index');
-const loginRoute = require('./routes/login');
 const commonData = require('./middlewares/common-data');
-const myPassport = require('./auth/init');
 
-
+const db = require('./db/DBmodule');
 const app = express();
 
 // Подключаем шаблонизатор
@@ -47,21 +48,24 @@ app.use((err, req, res, next) => {
     next();
 });
 
+
+require('./auth/localStrategy')(passport);
+
 // настройка авторизации с использованием passport js
 app.use(session({
     secret: 'your secret key',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }));
-app.use(myPassport.initialize());
-app.use(myPassport.session());
-
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 // Собираем общие данные для всех страниц приложения
 app.use(commonData);
 
 // Подключаем маршруты
 indexRoute(app);
-loginRoute(app);
+
 
 // Фиксируем фатальную ошибку и отправляем ответ с кодом 500
 app.use((err, req, res, next) => {

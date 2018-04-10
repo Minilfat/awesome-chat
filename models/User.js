@@ -2,23 +2,28 @@
 
 class User {
 
-    constructor(login, password, alias) {
+    constructor(id, login, password, alias) {
+      this.id = id;
       this.login = login;
       this.password = password;
       this.alias = alias;
     }
 
-    display() {
-      console.log(this.login + " " + this.password + " " + this.alias);
-    }
+    // display() {
+    //   return this.login + " " + this.password + " " + this.alias;
+    // }
 
-    getLogin() {
-      return this.login;
-    }
+    // getLogin() {
+    //   return this.login;
+    // }
 
-    getPassword() {
-      return this.password;
-    }
+    // getAlias() {
+    //   return this.alias;
+    // }
+
+    // getPassword() {
+    //   return this.password;
+    // }
 }
 
 module.exports = User;
