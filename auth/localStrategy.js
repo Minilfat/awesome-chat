@@ -1,4 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy
+const bCrypt = require('bcrypt-nodejs');
+
 
 const User = require('../models/User')
 const findUserInDb = require('../db/DBmodule').findUser; 
@@ -9,14 +11,24 @@ function checkResult(result) {
   return result.rowCount > 0;
 }
 
+function getHash(password){
+  return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
+
+function passwordsEqual(rawPasswd, hashPasswd){
+  return bCrypt.compareSync(rawPasswd, hashPasswd);
+}
+
 
 function findUser(email, password, callback) {
   findUserInDb(email)
     .then(res => {
       if (checkResult(res)) {
-          if (email === res.rows[0].login && password === res.rows[0].password) {
-            let user = new User(res.rows[0].login,res.rows[0].password,res.rows[0].alias);
+          if (email === res.rows[0].login && passwordsEqual(password, res.rows[0].password)) {
+            let user = new User(res.rows[0].user_id, res.rows[0].login, res.rows[0].password, res.rows[0].alias);
             return callback(null, user);
+          } else {
+            console.log('Invalid password or username: ' + res.rows[0].user_id);
           }
       };
       return callback(null);
@@ -36,10 +48,12 @@ function checkAndRegister(req, email, password, done) {
       }
 
       let alias = req.body.alias;
-      insertToDb(email, password, alias)
+      insertToDb(email, getHash(password), alias)
         .then(res => {
           console.log('Row(s) inserted: ' + res.rowCount);
-          let user = new User(email, password, alias);
+          let id = res.rows[0].user_id;
+          console.log('Id of a new user is ' + id);
+          let user = new User(id, email, getHash(password), alias);
           return done(null, user);
         })
         .catch(err => {
@@ -59,7 +73,7 @@ module.exports = function(passport) {
   });
 
   passport.deserializeUser((user, done) => {
-    done(null, Object.setPrototypeOf(user, User.prototype))
+    done(null, user);
   });
 
 
