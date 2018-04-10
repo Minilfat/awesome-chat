@@ -1,3 +1,4 @@
+
 extends layout
 
 block style
@@ -5,8 +6,8 @@ block style
 
 block content
     
-    form(action='/user/changeAlias', method='POST')
+    form(action='/user/changeEmail', method='POST')
         p
-            | New alias:
-            input(type='text', name='newAlias', value='')
+            | New email:
+            input(type='email', name='newEmail', value='')
         input(type='submit', value='Ok')

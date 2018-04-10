@@ -2,6 +2,7 @@ const bCrypt = require('bcrypt-nodejs');
 
 const updatePasswd = require('../db/DBmodule').updateUserPassword;
 const updateAlias = require('../db/DBmodule').updateUserAlias;
+const updateEmail = require('../db/DBmodule').updateUserLogin;
 
 function passwordsEqual(rawPasswd, hashPasswd){
     return bCrypt.compareSync(rawPasswd, hashPasswd);
@@ -48,7 +49,7 @@ function changeAlias(req, resp, done) {
     let user = req.user;
 
     
-    updatePasswd(newAlias, user.id)
+    updateAlias(newAlias, user.id)
         .then(res => {
             if (checkResult(res)) {
                 console.log('Alias for user ' + user.id + ' was updated');
@@ -64,9 +65,33 @@ function changeAlias(req, resp, done) {
     
 }
 
+
+function changeEmail(req, resp, done) {
+
+    let newEmail = req.body.newEmail;
+    let user = req.user;
+
+    
+    updateEmail(newEmail, user.id)
+        .then(res => {
+            if (checkResult(res)) {
+                console.log('Email(or login) for user ' + user.id + ' was updated');
+                user.login = newEmail;
+                return done(null, user);
+            }
+            return done(null);
+        })
+        .catch(err => {
+            console.error('Error executing query', err.stack)
+            return done(err);
+        });
+    
+}
+
 module.exports = {
     changePassword,
-    changeAlias
+    changeAlias,
+    changeEmail
 }
 
 // module.exports = (req, res, next) => {

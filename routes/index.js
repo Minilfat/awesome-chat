@@ -7,6 +7,7 @@ const authRequired = require('../middlewares/isAuthRequired');
 const logout = require('../controllers/logout');
 const changePassword = require('../controllers/profileEditor').changePassword;
 const changeAlias = require('../controllers/profileEditor').changeAlias;
+const changeEmail = require('../controllers/profileEditor').changeEmail;
 
 
 
@@ -49,7 +50,10 @@ module.exports = (app) => {
         })
     });
 
+    // тестовые пути для проверки работоспособности смены фалиаса и мэйла
+    // to be deleted soon :)
     app.get('/alias', authRequired(), (req, res) => res.render('aliasChangeTest'));
+    app.get('/email', authRequired(), (req, res) => res.render('emailChangeTest'));
     
     app.post('/user/changeAlias', authRequired(), (req, res) => {
         changeAlias(req, res, (err, user) => {
@@ -62,6 +66,18 @@ module.exports = (app) => {
                 
         })
     });  
+
+    app.post('/user/changeEmail', authRequired(), (req, res) => {
+        changeEmail(req, res, (err, user) => {
+            if (err) {
+                console.log('error happened');    
+            }
+            if (user) {
+                res.redirect('/profile');
+            }
+                
+        })
+    }); 
 
     // по этомму маршруту может пройти только авторизованный пользователь
     app.get('/chat', authRequired(), (req, res) => {

@@ -61,6 +61,10 @@ function updateUserAlias(newAlias, user_id) {
     return pool.query('UPDATE users SET alias=$1 WHERE user_id=$2', [newAlias, user_id]);
 }
 
+function updateUserLogin(newLogin, user_id) {
+    return pool.query('UPDATE users SET login=$1 WHERE user_id=$2', [newLogin, user_id]);
+}
+
 module.exports = {
     saveUser,
     saveChat,
@@ -72,5 +76,6 @@ module.exports = {
     deleteChat,
     deleteMessage,
     updateUserPassword,
-    updateUserAlias
+    updateUserAlias,
+    updateUserLogin
 }
