@@ -10,6 +10,7 @@ block content
             div(class="contact-list-panel")
                 // To use backend contacts: var contacts = loadUserContacts();
                 // +contact(contact.name, contact.id)
+                -var contacts = ['Lidiya', 'Lidiya', 'Lidiya', 'Lidiya', 'Lidiya']
                 each contact in contacts
                     +contact(contact, i++)
         div(id="header")

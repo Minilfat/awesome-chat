@@ -69,7 +69,8 @@ module.exports = (app) => {
 
     app.get('/contact-list', function (req, res) {
         res.locals.contacts = ['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat'];
-        res.render('contact-list', {...res.locals});
+        res.render('contact-list', {...res.locals})
+    });
     app.post('/user/changeEmail', authRequired(), (req, res) => {
         changeEmail(req, res, (err, user) => {
             if (err) {
@@ -95,6 +96,7 @@ module.exports = (app) => {
             username: req.user.password,
             info: req.user.id
         });
+    });
 
     app.get('/register', function (req, res) {
         res.render('register', {...res.locals});
