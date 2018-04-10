@@ -24,6 +24,7 @@ function addMessage(text, chatid, sender) {
     } else if (typeof text === 'undefined') {
         // Take user input message and show it
         text = document.getElementById('send-message-text').value;
+        //add here info about current user
         showMessageOnScreen(text);
         // Clear input
         document.getElementById('send-message-text').value = '';
@@ -39,7 +40,6 @@ function addMessage(text, chatid, sender) {
 
 function showMessageOnScreen(text, sender) {
     var input = $('#messages-body-id');
-    input.innerHTML = '';
     var i = 0;
 
     // Add message body to a chat
@@ -47,7 +47,7 @@ function showMessageOnScreen(text, sender) {
         '        <div>\n' +
         '            <img class="inline contact-photo" src="images/ellipse.svg">\n' +
         '            <div class="inline message-text">\n' +
-        '                <p>' + text + '</p></div></div></div>');
+        '                <p>' + sender + '</p><p>' + text + '</p></div></div></div>');
 }
 
 /**
@@ -73,6 +73,7 @@ function chooseChat(el, id) {
     activeChat = document.getElementById(id)
     activeChat.classList.add('active');
     // Add all messages to the main screen
+    document.getElementById('messages-body-id').innerHTML = ''
     var messages = loadChatMessages();
     for (var i = 0; i < messages.length; i++) {
         showMessageOnScreen(messages[i]);
