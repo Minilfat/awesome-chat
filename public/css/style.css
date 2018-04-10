@@ -64,15 +64,15 @@ a {
 }
 
 .contact.active {
-  background-color: #13c299;
+  background-color: #4c9589;
 }
 
 .contact.active:hover {
-  background-color: #13c299;
+  background-color: #4c9589;
 }
 
 .contact.active:active {
-  background-color: #13c299;
+  background-color: #4c9589;
 }
 
 .chat-title {
