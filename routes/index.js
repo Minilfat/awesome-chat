@@ -41,12 +41,12 @@ module.exports = (app) => {
     app.post('/user/changePassword', authRequired(), (req, res) => {
         changePassword(req, res, (err, user) => {
             if (err) {
-                console.log('error happened');    
+                console.log('error happened');
             }
             if (user) {
                 res.render('chat', {username: user.password});
             }
-                
+
         })
     });
 
@@ -54,37 +54,37 @@ module.exports = (app) => {
     // to be deleted soon :)
     app.get('/alias', authRequired(), (req, res) => res.render('aliasChangeTest'));
     app.get('/email', authRequired(), (req, res) => res.render('emailChangeTest'));
-    
+
     app.post('/user/changeAlias', authRequired(), (req, res) => {
         changeAlias(req, res, (err, user) => {
             if (err) {
-                console.log('error happened');    
+                console.log('error happened');
             }
             if (user) {
                 res.redirect('/profile');
             }
-                
+
         })
-    });  
+    });
 
     app.post('/user/changeEmail', authRequired(), (req, res) => {
         changeEmail(req, res, (err, user) => {
             if (err) {
-                console.log('error happened');    
+                console.log('error happened');
             }
             if (user) {
                 res.redirect('/profile');
             }
-                
+
         })
-    }); 
+    });
 
     // по этомму маршруту может пройти только авторизованный пользователь
     app.get('/chat', authRequired(), (req, res) => {
-        res.render('chat', {username: req.user.password, 
-                            info: req.user.id});
+        res.render('chat', {
+            username: req.user.password,
+            info: req.user.id
+        });
+
     });
-
-
-
 };
