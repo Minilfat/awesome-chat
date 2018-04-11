@@ -8,6 +8,7 @@ const logout = require('../controllers/logout');
 const changePassword = require('../controllers/profileEditor').changePassword;
 const changeAlias = require('../controllers/profileEditor').changeAlias;
 const changeEmail = require('../controllers/profileEditor').changeEmail;
+const getContacts = require('../controllers/contacts');
 
 
 
@@ -18,7 +19,7 @@ module.exports = (app) => {
 
     app.get('/login', (req, res) => res.render('index', {message: req.flash('message')}));
     app.post('/login', passport.authenticate('login', {
-        successRedirect: '/chat',
+        successRedirect: '/contact-list',
         failureRedirect: '/',
         failureFlash : true
     }));
@@ -30,8 +31,6 @@ module.exports = (app) => {
         failureRedirect: '/register',
         failureFlash : true
     }));
-
-    app.get('/contact-list', (req, res) => res.render('contact-list', {...res.locals}));
 
     app.get('/contact', (req, res) => res.render('contact', {...res.locals}));
 
@@ -67,10 +66,21 @@ module.exports = (app) => {
         })
     });
 
-    app.get('/contact-list', function (req, res) {
+    app.get('/contact-list', authRequired(), (req, res) =>  {
         res.locals.contacts = ['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat'];
         res.render('contact-list', {...res.locals})
     });
+
+    app.get('/contacts', authRequired(), (req, res) => {
+        getContacts(req,res);
+    });
+
+    app.post('/messages', authRequired(), (req, res) => {
+        getContacts(req,res);
+    });
+
+
+
     app.post('/user/changeEmail', authRequired(), (req, res) => {
         changeEmail(req, res, (err, user) => {
             if (err) {
@@ -83,13 +93,7 @@ module.exports = (app) => {
         })
     });
 
-    app.get('/contact', function (req, res) {
-        res.render('contact', {...res.locals});
-    });
-
-    app.get('/chat', function (req, res) {
-        res.render('chat', {...res.locals});
-    });
+  
     // по этомму маршруту может пройти только авторизованный пользователь
     app.get('/chat', authRequired(), (req, res) => {
         res.render('chat', {
@@ -98,7 +102,4 @@ module.exports = (app) => {
         });
     });
 
-    app.get('/register', function (req, res) {
-        res.render('register', {...res.locals});
-    });
 };
