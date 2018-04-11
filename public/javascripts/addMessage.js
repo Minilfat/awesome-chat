@@ -84,8 +84,16 @@ function handleNotification(chatid, text) {
 function showContact(contact) {
     var contactBody = $('#contact-list-panel-id');
 
-    contactBody.append('' +
-        '')
+    contactBody.append("<div class=\"chat-list-panel\">\n" +
+        "  <div class=\"contact inline\" id=\"undefined\" onclick=\"chooseChat(this, undefined)\">\n" +
+        "    <div><img class=\"inline contact-photo\" src=\"images/ellipse.svg\"/>\n" +
+        "      <div class=\"inline chat-title\">\n" +
+        "        <p></p>\n" +
+        "      </div>\n" +
+        "      <input type=\"hidden\"/>\n" +
+        "    </div>\n" +
+        "  </div>\n" +
+        "</div>")
 
 }
 
@@ -104,9 +112,17 @@ function chooseChat(el, id) {
     activeChat.classList.add('active');
     // Add all messages to the main screen
     document.getElementById('messages-body-id').innerHTML = '';
-    var messages = loadChatMessages();
+    let chatParams = _getActiveChatIdType()
+    var messages = loadChatMessages(chatParams.chatid, chatParams.type);
     for (var i = 0; i < messages.length; i++) {
         showMessageOnScreen(messages[i]);
     }
 }
+
+document.onload(function () {
+    let contacts = loadUserContacts();
+    contacts.forEach(contact => {
+        showContact(contact)
+    })
+})
 
