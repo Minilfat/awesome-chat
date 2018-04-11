@@ -1,5 +1,5 @@
 // Import 'backendUrls.js';
-import {connection} from 'connection';
+// import {connection} from 'connection';
 var activeChat;
 
 /**
@@ -10,7 +10,7 @@ var activeChat;
  * @param {String} type - Type of conversation: 'dialog'/'chat'.
  */
 
-export function addMessage(text, chatid, sender, date, type) {
+function addMessage(text, chatid, sender, date, type) {
     // TODO rewrite paragraphs for writing message: add contact lists, move incoming messages, mark as unread
     // If the text and chatid are defined, message came from backend
     if (typeof text !== 'undefined' && chatid !== 'undefined') {
@@ -39,7 +39,7 @@ export function addMessage(text, chatid, sender, date, type) {
 }
 
 function _getActiveChatIdType() {
-    let answer = {}
+    let answer = {};
     let inputs = activeChat.getElementsByTagName('input');
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].classList.contains('chat_id')) {
@@ -85,16 +85,16 @@ function showContact(contact) {
     var contactBody = $('#contact-list-panel-id');
 
     contactBody.append("<div class=\"chat-list-panel\">\n" +
-        "  <div class=\"contact inline\" id=\"undefined\" onclick=\"chooseChat(this, undefined)\">\n" +
+        "  <div class=\"contact inline\" id=" + contact.id + " onclick=\"chooseChat(this, " + contact.id + ")\">\n" +
         "    <div><img class=\"inline contact-photo\" src=\"images/ellipse.svg\"/>\n" +
         "      <div class=\"inline chat-title\">\n" +
-        "        <p></p>\n" +
+        "        <p>"+ contact.name +"</p>\n" +
         "      </div>\n" +
-        "      <input type=\"hidden\"/>\n" +
+        "      <input type=\"hidden\" class=\"chat_id\" value=" + contact.id + ">\n" +
+        "      <input type=\"hidden\" class=\"chat_type\" value=" + contact.type + ">\n" +
         "    </div>\n" +
         "  </div>\n" +
         "</div>")
-
 }
 
 /**
@@ -119,10 +119,11 @@ function chooseChat(el, id) {
     }
 }
 
-document.onload(function () {
-    let contacts = loadUserContacts();
-    contacts.forEach(contact => {
-        showContact(contact)
+$(document).ready(function () {
+    $.get('/contacts', function(contacts) {
+            console.log(contacts);
+            let tmp = [...JSON.parse(contacts)];
+            tmp.forEach(contact => showContact(contact))
     })
 })
 
