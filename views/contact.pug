@@ -1,8 +1,9 @@
-mixin contact(name, id)
+mixin contact(name, id, type)
     div(class="chat-list-panel")
         div(class="contact inline" id="" + id + "" onclick='chooseChat(this, ' + id + ')')
             div
                 img(class="inline contact-photo" src="images/ellipse.svg")
                 div(class="inline chat-title")
                     p=name
-                input(type="hidden" value=id)
+                input(type="hidden" class="chat_id" value=id)
+                input(type="hidden" class="chat_type" value=type)
