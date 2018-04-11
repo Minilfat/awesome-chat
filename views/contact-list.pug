@@ -2,6 +2,10 @@ extends layout
 include ./contact
 include ./message
 
+block customScript
+    script(src="/javascripts/addMessage.js")
+    script(src="/javascripts/backendUrls.js")
+
 block content
     -var i = 0;
     div(class="col-sm-12 main")
@@ -10,9 +14,12 @@ block content
             div(class="contact-list-panel")
                 // To use backend contacts: var contacts = loadUserContacts();
                 // +contact(contact.name, contact.id)
-                -var contacts = ['Lidiya', 'Lidiya', 'Lidiya', 'Lidiya', 'Lidiya']
-                each contact in contacts
-                    +contact(contact, i++)
+                //- -var contacts = loadUserContacts.call(this)
+                button(onclick='loadUserContacts()') 
+                //- -var contacts = ['Lidiya', 'Lidiya', 'Lidiya', 'Lidiya', 'Lidiya']
+                //- each contact in contacts
+                //-     //- +contact(contact.name, contact.id)
+                //-     +contact(contact, i++)
         div(id="header")
             div(class="col-sm-4")
                 h4 Hello, Lidiya!
@@ -25,5 +32,5 @@ block content
         div(class="message-send inline")
             textarea(type="text" class="inline" id="send-message-text")
             img(src='../images/send_btn.svg' class='inline' id="send-message-btn" onclick='addMessage()')
-    script(src="../javascripts/addMessage.js")
-    script(src="../javascripts/backendUrls.js")
+    //- script(src="/javascripts/addMessage.js")
+    //- script(src="/javascripts/backendUrls.js")
