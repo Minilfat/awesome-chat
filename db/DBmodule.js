@@ -39,6 +39,10 @@ function findChat(chat_id) {
     return pool.query('SELECT * FROM chats WHERE chat_id=$1', [chat_id]);
 }
 
+function findChatUsers(chat_id) {
+    return pool.query('SELECT user_id FROM users_chats WHERE users_chats.chat_id=$1', [chat_id]);
+}
+
 function findMessage(message_id) {
     return pool.query('SELECT * FROM messages WHERE message_id=$1', [message_id]);
 }
