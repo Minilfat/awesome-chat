@@ -23,8 +23,6 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({server: server});
 
-socketHandler(wss);
-
 // Подключаем шаблонизатор
 app.set('view engine', 'pug');
 // Подключаем директорию с шаблонами
@@ -77,6 +75,11 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.sendStatus(500);
 });
+
+
+// TODO: obtain id of logged user
+// var user_id = 
+socketHandler(wss, user_id);
 
 server.listen(config.get('port'), () => {
     console.info(`Open http://localhost:${config.get('port')}/`);

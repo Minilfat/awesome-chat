@@ -15,7 +15,9 @@ const createChatMessages = pool.query('CREATE TABLE IF NOT EXISTS chat_messages 
 const createDialogs = pool.query('CREATE TABLE IF NOT EXISTS dialogs (dialog_id SERIAL PRIMARY KEY, user1_id INTEGER REFERENCES users ON DELETE CASCADE, user2_id INTEGER REFERENCES users ON DELETE CASCADE)');
 const createDialogMessages = pool.query('CREATE TABLE IF NOT EXISTS dialog_messages (dialog_id INTEGER REFERENCES dialogs ON DELETE CASCADE, message_id INTEGER REFERENCES messages ON DELETE CASCADE)');
 
-
+// insertion doesn't work
+//const addUser = pool.query('INSERT INTO dialogs VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT user_id FROM users WHERE login=$2)) RETURNING dialog_id', ['q@q.q', 'kek@ke.k']);
+const addUser = pool.query('INSERT INTO users_chats VALUES((SELECT user_id FROM users WHERE login=\'kek@ke.k\'), (SELECT chat_id FROM chats WHERE name=\'test\'))');
 
 function saveUser(login, password, alias) {
     return pool.query('INSERT INTO users(login, password, alias) VALUES($1, $2, $3) RETURNING user_id', [login, password, alias]);
@@ -41,6 +43,12 @@ function findChat(chat_id) {
 
 function findChatUsers(chat_id) {
     return pool.query('SELECT user_id FROM users_chats WHERE users_chats.chat_id=$1', [chat_id]);
+}
+
+function findDialogChater(dialog_id, chater_id) {
+    return pool.query('SELECT user1_id as user_id FROM (SELECT * FROM dialogs WHERE dialog_id=$1) WHERE user2_id=$2 \
+                       UNION \
+                       SELECT user2_id as user_id FROM (SELECT * FROM dialogs WHERE dialog_id=$1) WHERE user1_id=$2', [dialog_id, chater_id]);
 }
 
 function findMessage(message_id) {
@@ -111,6 +119,8 @@ module.exports = {
     saveMessage,
     findUser,
     findChat,
+    findChatUsers,
+    findDialogChater,
     findMessage,
     deleteUser,
     deleteChat,

@@ -4,11 +4,12 @@ const db = require('../db/DBmodule');
 var clients = {};
 
 
-module.exports = wss => {
-  //wss.on('request', function(request) {
+module.exports = (wss, user_id) => {
 
-    // console.log(request);
   wss.on('connection', function connection(ws) {
+
+    clients[user_id] = ws;
+
     ws.on('message', function(msg) {
       console.log("Got a message: ", JSON.parse(msg))
       let message = JSON.parse(msg);
@@ -17,17 +18,14 @@ module.exports = wss => {
       var date = Date.now();
       message.date = '${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}:${date.second}';
   
-      clients[message.sender_id] = ws;
-  
       if (message.type === 'dialog'){
-        // TODO send to another user
-          clients[message.sender_id].send(JSON.stringify(message));
+          var receiver = db.findDialogChater(message.id, message.sender_id);
+          clients[receiver].send(JSON.stringify(message));
       }
       else if (message.type === 'chat') {
   
-          //var users = db.findChatUsers(message.id);
-  
-          //users.forEach(user => clients[user].send(message));
+          var users = db.findChatUsers(message.id);
+          users.forEach(user => clients[user].send(message));
       }
       else {
         console.log("IDONO")
