@@ -5,32 +5,42 @@ var clients = {};
 
 
 module.exports = wss => {
-  wss.on('request', function(request) {
+  //wss.on('request', function(request) {
 
-    console.log(request);
-  
-    connection.on('message', function(message) {
+    // console.log(request);
+  wss.on('connection', function connection(ws) {
+    ws.on('message', function(msg) {
+      console.log("Got a message: ", JSON.parse(msg))
+      let message = JSON.parse(msg);
+      console.log("Message is received!", message)
+      console.log(message)
       var date = Date.now();
-      message.date = `${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}:${date.second}`;
+      message.date = '${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}:${date.second}';
   
-      clients[message.sender_id] = request.accept(null, request.origin);
+      clients[message.sender_id] = ws;
   
       if (message.type === 'dialog'){
-          clients[message.sender_id].send(message);
+        // TODO send to another user
+          clients[message.sender_id].send(JSON.stringify(message));
       }
       else if (message.type === 'chat') {
   
-          var users = db.findChatUser(message.id);
+          //var users = db.findChatUsers(message.id);
   
-          users.forEach(user => clients[user].send(message));
+          //users.forEach(user => clients[user].send(message));
       }
       else {
-          alert('Error!');
+        console.log("IDONO")
       }
-    });
+      ws.on('error', function(error) {
+        console.log("Error happened! ", error)
+      })
+
+
+   // });
   
-    connection.on('close', function(connection) {
+    ws.on('close', function(connection) {
       console.log('Connection is closed');
     });
-  });
+  });})
 };
