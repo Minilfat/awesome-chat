@@ -1,3 +1,4 @@
+// Connection establishment
 
 const connection = new WebSocket(`ws://127.0.0.1:3000`);
 
@@ -11,9 +12,7 @@ connection.onerror = function (error) {
 };
 
 connection.onmessage = function (message) {
-
-    console.log(message);
-
+    console.log("Got a message! ");
     var json = {};
     try {
         json = JSON.parse(message.data);
@@ -22,9 +21,8 @@ connection.onmessage = function (message) {
     }
     // Text, chatid, sender, date, type
     addMessage(json.text, json.chatid, json.sender, json.date, json.type);
+    //addMessage(message)
 }
-
-
 
 var activeChat;
 
@@ -60,7 +58,8 @@ function addMessage(text, chatid, sender, date, type) {
         let msgInfo = _getActiveChatIdType();
         chatid = msgInfo.chatid;
         type = msgInfo.type;
-        connection.send({type: type, text: text, sender_id: sender, id: chatid});
+        // connection.send(text)
+        connection.send(JSON.stringify({type: type, text: text, sender_id: sender, id: chatid}));
         // TODO add url for sending message to backend
     }
 }
