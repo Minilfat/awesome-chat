@@ -1,4 +1,3 @@
-// TODO write doc
 function loadUserContacts() {
     $.get('/contacts', function(contacts){
         console.log(contacts);
