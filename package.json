@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rimraf node_modules/",
     "start": "NODE_ENV=production node app.js",
-    "dev": "NODE_ENV=development nodemon —inspect app.js",
+    "dev": "cross-env NODE_ENV=development nodemon —inspect app.js",
     "test": "NODE_ENV=testing mocha",
     "lint": "npm-run-all lint:*",
     "lint:css": "stylelint ./**/*.css",
@@ -30,7 +30,8 @@
     "passport-local": "^1.0.0",
     "pg": "^7.4.1",
     "pug": "2.0.0-beta11",
-    "sequelize": "^4.37.5"
+    "sequelize": "^4.37.5",
+    "ws": "^5.1.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",

@@ -1,6 +1,7 @@
 $(document).ready();
 
-function loadChatMessages(paramId, paramType) {
+
+function loadChatMessages(paramId, paramType, done) {
     $.post('/messages', {id: paramId, type: paramType}, function(messages) {
         console.log(messages);
         return messages;

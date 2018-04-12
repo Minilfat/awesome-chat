@@ -11,14 +11,19 @@ const morgan = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
-
+const http = require('http');
+const WebSocketServer = require('ws').Server;
 
 
 const indexRoute = require('./routes/index');
 const commonData = require('./middlewares/common-data');
+const socketHandler = require('./server/socketHandler');
 
-const db = require('./db/DBmodule');
 const app = express();
+const server = http.createServer(app);
+const wss = new WebSocketServer({server: server});
+
+socketHandler(wss);
 
 // Подключаем шаблонизатор
 app.set('view engine', 'pug');
@@ -73,7 +78,7 @@ app.use((err, req, res, next) => {
     res.sendStatus(500);
 });
 
-app.listen(config.get('port'), () => {
+server.listen(config.get('port'), () => {
     console.info(`Open http://localhost:${config.get('port')}/`);
 });
 

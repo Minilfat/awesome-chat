@@ -1,10 +1,35 @@
-// Import 'backendUrls.js';
-// import {connection} from 'connection';
+// Connection establishment
+
+const connection = new WebSocket(`ws://127.0.0.1:3000`);
+
+connection.onopen = function () {
+    // First we want users to enter their names
+    console.log('Connection is opened');
+};
+
+connection.onerror = function (error) {
+    console.log('Error occured. Please, check connection with external server. Error:', error);
+};
+
+connection.onmessage = function (message) {
+    console.log("Got a message! ");
+    var json = {};
+    try {
+        json = JSON.parse(message.data);
+    } catch (e) {
+        console.log('Not a valid JSON ', message.data);
+    }
+    // Text, chatid, sender, date, type
+    addMessage(json.text, json.chatid, json.sender, json.date, json.type);
+    //addMessage(message)
+}
+
 var activeChat;
 
 /**
  * Handle receiving or sending a message.
  * @param {string} text - The message.
+ * @param {string} chatid - The unique number/name of the chat.
  * @param {Object} sender - Senders name, photo and other information.
  * @param {Date} date - Date and time of message.
  * @param {String} type - Type of conversation: 'dialog'/'chat'.
@@ -33,7 +58,8 @@ function addMessage(text, chatid, sender, date, type) {
         let msgInfo = _getActiveChatIdType();
         chatid = msgInfo.chatid;
         type = msgInfo.type;
-        connection.send({type: type, text: text, sender_id: sender, id: chatid});
+        // connection.send(text)
+        connection.send(JSON.stringify({type: type, text: text, sender_id: sender, id: chatid}));
         // TODO add url for sending message to backend
     }
 }
@@ -49,6 +75,7 @@ function _getActiveChatIdType() {
             answer.type = inputs[i].value
         }
     }
+    return answer;
 }
 
 /**
@@ -57,16 +84,16 @@ function _getActiveChatIdType() {
  * @param {Object} sender - Senders name, photo and other information.
  */
 
-function showMessageOnScreen(text, sender) {
+function showMessageOnScreen(text, sender, message_id, message_time) {
     var input = $('#messages-body-id');
-    var i = 0;
+    // var i = 0;
 
     // Add message body to a chat
-    input.append('<div id=\'' + (i++) + '\' class="message col-sm-7">\n' +
+    input.append('<div id=\'' + message_id + '\' class="message col-sm-7">\n' +
         '        <div>\n' +
         '            <img class="inline contact-photo" src="images/ellipse.svg">\n' +
         '            <div class="inline message-text">\n' +
-        '                <p>' + sender + '</p><p>' + text + '</p></div></div></div>');
+        '                <p>' + sender + '</p><p>' + text + message_time + '</p></div></div></div>');
 
     var objDiv = document.getElementById('messages-body-id');
     objDiv.scrollTop = objDiv.scrollHeight;
@@ -112,11 +139,10 @@ function chooseChat(el, id) {
     activeChat.classList.add('active');
     // Add all messages to the main screen
     document.getElementById('messages-body-id').innerHTML = '';
-    let chatParams = _getActiveChatIdType()
-    var messages = loadChatMessages(chatParams.chatid, chatParams.type);
-    for (var i = 0; i < messages.length; i++) {
-        showMessageOnScreen(messages[i]);
-    }
+    let chatParams = _getActiveChatIdType();
+    loadChatMessages(chatParams.chatid, chatParams.type, (messages) => {
+        messages.forEach(mes => showMessageOnScreen(mes.text, mes.sender, mes.id, mes.time));
+    });
 }
 
 $(document).ready(function () {
