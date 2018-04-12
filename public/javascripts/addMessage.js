@@ -33,6 +33,7 @@ function addMessage(text, chatid, sender, date, type) {
         let msgInfo = _getActiveChatIdType();
         chatid = msgInfo.chatid;
         type = msgInfo.type;
+        console.log(connection);
         connection.send({type: type, text: text, sender_id: sender, id: chatid});
         // TODO add url for sending message to backend
     }

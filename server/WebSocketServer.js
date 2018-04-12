@@ -22,18 +22,16 @@ wsServer.on('request', function(request) {
     var date = Date.now();
     message.date = `${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}:${date.second}`;
 
-    clients[message.sender] = request.accept(null, request.origin);
+    clients[message.sender_id] = request.accept(null, request.origin);
 
     if (message.type === 'dialog'){
-        clients[message.sender].send(message);
+        clients[message.sender_id].send(message);
     }
     else if (message.type === 'chat') {
 
         var users = db.findChatUser(message.id);
 
-        users.forEach(user => {
-            clients[user].send(message);
-        });
+        users.forEach(user => clients[user].send(message));
     }
     else {
         alert('Error!');
@@ -41,6 +39,6 @@ wsServer.on('request', function(request) {
   });
 
   connection.on('close', function(connection) {
-    // close user connection
+    console.log('Connection is closed');
   });
 });
