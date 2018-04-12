@@ -9,6 +9,7 @@ const changePassword = require('../controllers/profileEditor').changePassword;
 const changeAlias = require('../controllers/profileEditor').changeAlias;
 const changeEmail = require('../controllers/profileEditor').changeEmail;
 const getContacts = require('../controllers/contacts');
+const getMessages = require('../controllers/messages');
 
 
 
@@ -76,7 +77,7 @@ module.exports = (app) => {
     });
 
     app.post('/messages', authRequired(), (req, res) => {
-        getContacts(req,res);
+        getMessages(req,res);
     });
 
 

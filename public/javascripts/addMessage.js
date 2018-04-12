@@ -49,6 +49,7 @@ function _getActiveChatIdType() {
             answer.type = inputs[i].value
         }
     }
+    return answer;
 }
 
 /**
@@ -57,16 +58,16 @@ function _getActiveChatIdType() {
  * @param {Object} sender - Senders name, photo and other information.
  */
 
-function showMessageOnScreen(text, sender) {
+function showMessageOnScreen(text, sender, message_id, message_time) {
     var input = $('#messages-body-id');
-    var i = 0;
+    // var i = 0;
 
     // Add message body to a chat
-    input.append('<div id=\'' + (i++) + '\' class="message col-sm-7">\n' +
+    input.append('<div id=\'' + message_id + '\' class="message col-sm-7">\n' +
         '        <div>\n' +
         '            <img class="inline contact-photo" src="images/ellipse.svg">\n' +
         '            <div class="inline message-text">\n' +
-        '                <p>' + sender + '</p><p>' + text + '</p></div></div></div>');
+        '                <p>' + sender + '</p><p>' + text + message_time + '</p></div></div></div>');
 
     var objDiv = document.getElementById('messages-body-id');
     objDiv.scrollTop = objDiv.scrollHeight;
@@ -112,11 +113,10 @@ function chooseChat(el, id) {
     activeChat.classList.add('active');
     // Add all messages to the main screen
     document.getElementById('messages-body-id').innerHTML = '';
-    let chatParams = _getActiveChatIdType()
-    var messages = loadChatMessages(chatParams.chatid, chatParams.type);
-    for (var i = 0; i < messages.length; i++) {
-        showMessageOnScreen(messages[i]);
-    }
+    let chatParams = _getActiveChatIdType();
+    loadChatMessages(chatParams.chatid, chatParams.type, (messages) => {
+        messages.forEach(mes => showMessageOnScreen(mes.text, mes.sender, mes.id, mes.time));
+    });
 }
 
 $(document).ready(function () {

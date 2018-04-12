@@ -86,6 +86,21 @@ function getContacts(user_id) {
         WHERE dialogs.user2_id=$1', [user_id]);
 }
 
+// TODO: alias of sender instead of id
+function getDialogMessages(dialog_id) {
+    return pool.query('SELECT m.message_id as id, u.alias as sender, m.text as text, m.date_time as mes_time \
+    FROM messages as m \
+        INNER JOIN users u ON m.sender_id = u.user_id \
+    WHERE m.message_id IN (SELECT message_id FROM dialog_messages WHERE dialog_id=$1)', [dialog_id]);
+}
+
+function getChatMessages(chat_id) {
+    return pool.query('SELECT m.message_id as id, u.alias as sender, m.text as text, m.date_time as messageTime \
+    FROM messages as m \
+      INNER JOIN users u ON m.sender_id = u.user_id \
+    WHERE message_id IN (SELECT message_id FROM chat_messages WHERE chat_id=$1)', [chat_id]);
+}
+
 module.exports = {
     saveUser,
     saveChat,
@@ -99,5 +114,7 @@ module.exports = {
     updateUserPassword,
     updateUserAlias,
     updateUserLogin,
-    getContacts
+    getContacts,
+    getDialogMessages,
+    getChatMessages
 }
