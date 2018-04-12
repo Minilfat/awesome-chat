@@ -63,12 +63,12 @@ module.exports = (app) => {
                 res.redirect('/profile');
             }
 
-        })
+        });
     });
 
     app.get('/contact-list', authRequired(), (req, res) =>  {
         res.locals.contacts = ['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat'];
-        res.render('contact-list', {...res.locals})
+        res.render('contact-list', {...res.locals});
     });
 
     app.get('/contacts', authRequired(), (req, res) => {
