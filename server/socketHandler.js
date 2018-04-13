@@ -36,7 +36,6 @@ module.exports = wss => {
         console.log("Error happened! ", error)
       })
 
-
    // });
   
     ws.on('close', function(connection) {

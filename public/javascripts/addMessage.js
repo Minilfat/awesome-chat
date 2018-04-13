@@ -22,7 +22,7 @@ connection.onmessage = function (message) {
     // Text, chatid, sender, date, type
     addMessage(json.text, json.chatid, json.sender, json.date, json.type);
     //addMessage(message)
-}
+};
 
 var activeChat;
 
@@ -89,11 +89,17 @@ function showMessageOnScreen(text, sender, message_id, message_time) {
     // var i = 0;
 
     // Add message body to a chat
-    input.append('<div id=\'' + message_id + '\' class="message col-sm-7">\n' +
+    input.append(
+        '<div class="row">' +
+        '<div id=\'' + message_id + '\' class="message col-sm-6">\n' +
         '        <div>\n' +
         '            <img class="inline contact-photo" src="images/ellipse.svg">\n' +
         '            <div class="inline message-text">\n' +
-        '                <p>' + sender + '</p><p>' + text + message_time + '</p></div></div></div>');
+        '                <p>' + sender + '</p><p>' + text + message_time + '</p>' +
+        '            </div>' +
+        '        </div>' +
+        '</div>' +
+        '</div>');
 
     var objDiv = document.getElementById('messages-body-id');
     objDiv.scrollTop = objDiv.scrollHeight;
@@ -121,7 +127,7 @@ function showContact(contact) {
         "      <input type=\"hidden\" class=\"chat_type\" value=" + contact.type + ">\n" +
         "    </div>\n" +
         "  </div>\n" +
-        "</div>")
+        "</div>");
 }
 
 /**
@@ -150,6 +156,8 @@ $(document).ready(function () {
             console.log(contacts);
             let tmp = [...JSON.parse(contacts)];
             tmp.forEach(contact => showContact(contact))
-    })
+    });
 })
+
+
 

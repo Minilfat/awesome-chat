@@ -8,29 +8,31 @@ block customScript
 
 block content
     -var i = 0;
-    div(class="col-sm-12 main")
-        div(class="col-sm-2 left-panel")
-
+    div(class="row main")
+        div(class="col-sm-3 left-panel")
             div(class="contact-list-panel" id="contact-list-panel-id")
+                div(class="search-container")
+                    input(type="text" name="search" placeholder="Search.." class="search_input")
                 // To use backend contacts: var contacts = loadUserContacts();
                 // +contact(contact.name, contact.id)
                 //- -var contacts = loadUserContacts.call(this)
-                button(onclick='loadUserContacts()') 
+                button(onclick='loadUserContacts()')
                 //- -var contacts = ['Lidiya', 'Lidiya', 'Lidiya', 'Lidiya', 'Lidiya']
                 //- each contact in contacts
                 //-     //- +contact(contact.name, contact.id)
                 //-     +contact(contact, i++)
-        div(id="header")
-            div(class="col-sm-4")
-                h4 Hello, Lidiya!
-            div(class="search-container col-sm-offset-5")
-                input(type="text" name="search" placeholder="Search..")
-            div(class="logout-link-container")
-                a(href="#" class="logout-link") Logout
-        div(class="inline chats-body" id="messages-body-id")
-            p You should choose a chat
-        div(class="message-send inline")
-            textarea(type="text" class="inline" id="send-message-text")
-            img(src='../images/send_btn.svg' class='inline' id="send-message-btn" onclick='addMessage()')
-    //- script(src="/javascripts/addMessage.js")
-    //- script(src="/javascripts/backendUrls.js")
+        div(class="col-sm-9 right-panel")
+            div(class="row header_panel")
+                    div(class="col-sm-11")
+                        h2 Hello, Lidiya!
+                    div(class="logout-link-container col-sm-1")
+                        div(class="logout_btn" onclick='logout()')
+            div(class="row")
+                div(class="inline chats-body col-sm-12" id="messages-body-id")
+                        p You should choose a chat
+            div(class="row")
+                div(class="message-send inline col-sm-12")
+                        textarea(type="text" class="inline" id="send-message-text")
+                        img(src='../images/send_btn.svg' class='inline' id="send-message-btn" onclick='addMessage()')
+                //- script(src="/javascripts/addMessage.js")
+                //- script(src="/javascripts/backendUrls.js")
