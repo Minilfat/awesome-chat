@@ -95,6 +95,7 @@ module.exports = function(passport, wss) {
         }
 
         socketHandler(wss, user.id);
+       
         return done(null, user);
       })
     }
