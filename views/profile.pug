@@ -1,26 +1,29 @@
 extends layout
-include ./contact
-include ./message
+include ./changePasswordForm
+include ./profileInfo
+include ./changeAliasEmail
 
 block style
     link(rel='stylesheet', href='css/profile.css')
 
 block content
-    div(class="card text-white bg-primary")
-        div(class="card_body")
-            div(class="profile_info")
-                img(class="inline contact-photo" src="images/ellipse.svg")
-                div(class="inline info")
-                    div(class="profile__nickname") User's alias: #{alias}
-                    div(class="profile__email") User's email: #{email}
-            div(class="change_pswd_btn btn btn-info" id="change_password") Change password
-            div(class="change_pswd_form")
-                form(action='/user/changePassword', method='POST')
-                    p
-                        | Old Password:
-                        input(type='password', name='oldPswd', value='')
-                        | Again:
-                        input(type='password', name='oldPassword2', value='')
-                        | New Password:
-                        input(type='password', name='newPswd', value='')
-                    input(type='submit', value='changePassword')
+    div(class="stripes-background")
+        div(class="card bg-info center center-card")
+            div(class="card_body")
+                nav
+                    div(class="nav nav-tabs text-white" id="nav-tab" role="tablist")
+                        a(class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true") Profile Info
+                        a(class="nav-item nav-link" id="nav-changePassword-tab" data-toggle="tab" href="#nav-changePassword" role="tab" aria-controls="nav-changePassword" aria-selected="false") Change Password
+                        a(class="nav-item nav-link" id="nav-changeAlias-tab" data-toggle="tab" href="#nav-changeAlias" role="tab" aria-controls="nav-changeAlias" aria-selected="false") Change Alias/Login
+                br
+            div(class="tab-content" id="nav-tabContent")
+                div(class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab")
+                    +profileInfo
+                    br
+                div(class="tab-pane fade" id="nav-changePassword" role="tabpanel" aria-labelledby="nav-changePassword-tab")
+                    +changePasswordForm
+                    br
+                div(class="tab-pane fade" id="nav-changeAlias" role="tabpanel" aria-labelledby="nav-changeAlias-tab")
+                    +changeAliasEmail
+                    br
+

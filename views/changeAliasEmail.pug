@@ -1,0 +1,12 @@
+mixin changeAliasEmail
+    form(action="/user/changeEmail", method='POST')
+        div(class="form-group")
+            label(for="email") Change #{email} to:
+                input(type="email" class="form-control" name="newEmail" id="email")
+        button(type="submit" value="changeEmail" class="btn btn-warning") Change
+    br
+    form(action="/user/changeAlias", method='POST')
+        div(class="form-group")
+            label(for="alias") Change #{alias} to:
+                input(type="text" class="form-control" name="newAlias" id="alias")
+        button(type="submit" value="changeAlias" class="btn btn-warning") Change

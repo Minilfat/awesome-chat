@@ -17,13 +17,10 @@ const WebSocketServer = require('ws').Server;
 
 const indexRoute = require('./routes/index');
 const commonData = require('./middlewares/common-data');
-const socketHandler = require('./server/socketHandler');
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({server: server});
-
-socketHandler(wss);
 
 // Подключаем шаблонизатор
 app.set('view engine', 'pug');
@@ -54,7 +51,7 @@ app.use((err, req, res, next) => {
 });
 
 
-require('./auth/localStrategy')(passport);
+require('./auth/localStrategy')(passport, wss);
 
 // настройка авторизации с использованием passport js
 app.use(session({
@@ -77,6 +74,7 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.sendStatus(500);
 });
+
 
 server.listen(config.get('port'), () => {
     console.info(`Open http://localhost:${config.get('port')}/`);

@@ -35,7 +35,7 @@ module.exports = (app) => {
 
     app.get('/contact', (req, res) => res.render('contact', {...res.locals}));
 
-    app.get('/profile', (req, res) => res.render('profile', {alias: req.user.alias,
+    app.get('/profile', authRequired(), (req, res) => res.render('profile', {alias: req.user.alias,
                                                                              email: req.user.login}));
 
     app.post('/user/changePassword', authRequired(), (req, res) => {
@@ -64,12 +64,11 @@ module.exports = (app) => {
                 res.redirect('/profile');
             }
 
-        })
+        });
     });
 
-    app.get('/contact-list', (req, res) =>  {
-        res.locals.contacts = ['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat'];
-        res.render('contact-list', {...res.locals})
+    app.get('/contact-list', authRequired(), (req, res) =>  {
+        res.render('contact-list', {user: req.user.id, name: req.user.alias});
     });
 
     app.get('/contacts', authRequired(), (req, res) => {

@@ -1,10 +1,12 @@
-const LocalStrategy = require('passport-local').Strategy
+const LocalStrategy = require('passport-local').Strategy;
 const bCrypt = require('bcrypt-nodejs');
+const socketHandler = require('../server/socketHandler');
 
 
 const User = require('../models/User')
-const findUserInDb = require('../db/DBmodule').findUser; 
-const insertToDb = require('../db/DBmodule').saveUser;
+const DBmodule = require('../db/DBmodule');
+const findUserInDb = DBmodule.findUser; 
+const insertToDb = DBmodule.saveUser;
 
 function checkResult(result) {
   console.info("Rows fetched: " + result.rowCount);
@@ -67,7 +69,7 @@ function checkAndRegister(req, email, password, done) {
     })
 }
 
-module.exports = function(passport) {
+module.exports = function(passport, wss) {
   passport.serializeUser((user, done) => {
     done(null, user);
   });
@@ -92,6 +94,8 @@ module.exports = function(passport) {
           return done(null, false, req.flash('message', 'Invalid password or email'));
         }
 
+        socketHandler(wss, user.id);
+       
         return done(null, user);
       })
     }
@@ -111,6 +115,8 @@ module.exports = function(passport) {
         if (user === 'exists') {
           return done(null, false, req.flash('message', 'User already exists'))
         }
+
+        socketHandler(wss, user.id);
         return done(null, user);
       })
     }
