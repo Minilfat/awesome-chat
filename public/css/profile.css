@@ -1,0 +1,29 @@
+.stripes-background {
+    width: 100vw;
+    height: 100vh;
+    background-image: repeating-linear-gradient(45deg, #ccc, #ccc 30px, #4c394b 30px, #4c394b 60px);
+}
+
+.center-card {
+    position: relative;
+    margin: 0 auto;
+    width: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.center-card a {
+    color: white;
+}
+
+.center-card a:hover {
+    color: white;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
