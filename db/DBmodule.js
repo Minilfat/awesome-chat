@@ -17,7 +17,7 @@ const createDialogMessages = pool.query('CREATE TABLE IF NOT EXISTS dialog_messa
 
 // insertion doesn't work
 //const addUser = pool.query('INSERT INTO dialogs VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT user_id FROM users WHERE login=$2)) RETURNING dialog_id', ['q@q.q', 'kek@ke.k']);
-const addUser = pool.query('INSERT INTO users_chats VALUES((SELECT user_id FROM users WHERE login=\'kek@ke.k\'), (SELECT chat_id FROM chats WHERE name=\'test\'))');
+//const addUser = pool.query('INSERT INTO users_chats VALUES((SELECT user_id FROM users WHERE login=\'kek@ke.k\'), (SELECT chat_id FROM chats WHERE name=\'test\'))');
 
 function saveUser(login, password, alias) {
     return pool.query('INSERT INTO users(login, password, alias) VALUES($1, $2, $3) RETURNING user_id', [login, password, alias]);
@@ -41,14 +41,14 @@ function findChat(chat_id) {
     return pool.query('SELECT * FROM chats WHERE chat_id=$1', [chat_id]);
 }
 
-function findChatUsers(chat_id) {
-    return pool.query('SELECT user_id FROM users_chats WHERE users_chats.chat_id=$1', [chat_id]);
+function findChatUsers(chat_id, sender_id) {
+    return pool.query('SELECT user_id FROM users_chats WHERE users_chats.chat_id=$1 AND users_chats.user_id!=$2', [chat_id, sender_id]);
 }
 
-function findDialogChater(dialog_id, chater_id) {
-    return pool.query('SELECT user1_id as user_id FROM (SELECT * FROM dialogs WHERE dialog_id=$1) WHERE user2_id=$2 \
+function findDialogReceiver(dialog_id, receiver_id) {
+    return pool.query('SELECT user1_id as user_id FROM (SELECT * FROM dialogs WHERE dialog_id=$1) AS dialog_users WHERE user2_id=$2 \
                        UNION \
-                       SELECT user2_id as user_id FROM (SELECT * FROM dialogs WHERE dialog_id=$1) WHERE user1_id=$2', [dialog_id, chater_id]);
+                       SELECT user2_id as user_id FROM (SELECT * FROM dialogs WHERE dialog_id=$1) AS dialog_users WHERE user1_id=$2', [dialog_id, receiver_id]);
 }
 
 function findMessage(message_id) {
@@ -120,7 +120,7 @@ module.exports = {
     findUser,
     findChat,
     findChatUsers,
-    findDialogChater,
+    findDialogReceiver,
     findMessage,
     deleteUser,
     deleteChat,

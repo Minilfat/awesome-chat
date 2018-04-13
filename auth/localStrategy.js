@@ -1,5 +1,6 @@
-const LocalStrategy = require('passport-local').Strategy
+const LocalStrategy = require('passport-local').Strategy;
 const bCrypt = require('bcrypt-nodejs');
+const socketHandler = require('../server/socketHandler');
 
 
 const User = require('../models/User')
@@ -67,7 +68,7 @@ function checkAndRegister(req, email, password, done) {
     })
 }
 
-module.exports = function(passport) {
+module.exports = function(passport, wss) {
   passport.serializeUser((user, done) => {
     done(null, user);
   });
@@ -92,6 +93,7 @@ module.exports = function(passport) {
           return done(null, false, req.flash('message', 'Invalid password or email'));
         }
 
+        socketHandler(wss, user.id);
         return done(null, user);
       })
     }
@@ -111,6 +113,8 @@ module.exports = function(passport) {
         if (user === 'exists') {
           return done(null, false, req.flash('message', 'User already exists'))
         }
+
+        socketHandler(wss, user.id);
         return done(null, user);
       })
     }

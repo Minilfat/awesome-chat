@@ -17,7 +17,6 @@ const WebSocketServer = require('ws').Server;
 
 const indexRoute = require('./routes/index');
 const commonData = require('./middlewares/common-data');
-const socketHandler = require('./server/socketHandler');
 
 const app = express();
 const server = http.createServer(app);
@@ -52,7 +51,7 @@ app.use((err, req, res, next) => {
 });
 
 
-require('./auth/localStrategy')(passport);
+require('./auth/localStrategy')(passport, wss);
 
 // настройка авторизации с использованием passport js
 app.use(session({
@@ -76,10 +75,6 @@ app.use((err, req, res, next) => {
     res.sendStatus(500);
 });
 
-
-// TODO: obtain id of logged user
-// var user_id = 
-socketHandler(wss, user_id);
 
 server.listen(config.get('port'), () => {
     console.info(`Open http://localhost:${config.get('port')}/`);
