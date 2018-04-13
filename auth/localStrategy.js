@@ -4,8 +4,9 @@ const socketHandler = require('../server/socketHandler');
 
 
 const User = require('../models/User')
-const findUserInDb = require('../db/DBmodule').findUser; 
-const insertToDb = require('../db/DBmodule').saveUser;
+const DBmodule = require('../db/DBmodule');
+const findUserInDb = DBmodule.findUser; 
+const insertToDb = DBmodule.saveUser;
 
 function checkResult(result) {
   console.info("Rows fetched: " + result.rowCount);

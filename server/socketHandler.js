@@ -15,7 +15,7 @@ module.exports = (wss, user_id) => {
       console.log("Message is received!", message);
 
       let date = new Date();
-      message.date = `${date.getYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      message.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
       console.log(message);
   

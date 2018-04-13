@@ -5,19 +5,120 @@ const pool = new Pool(config.get('db'));
 
 pool.connect();
 
-// const clean = pool.query('DROP TABLE users, chats, messages, users_chats, messages_chats;');
+// function clean() {
+//     return pool.query('DROP TABLE users_chats, dialogs;');
+// }
+// clean()
+//   .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
 
-const createUsers = pool.query('CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, login VARCHAR(50) UNIQUE NOT NULL, password CHAR(60) NOT NULL, alias VARCHAR(50) NOT NULL)');
-const createChats = pool.query('CREATE TABLE IF NOT EXISTS chats (chat_id SERIAL PRIMARY KEY, name VARCHAR(50) NOT NULL)');
-const createMessages = pool.query('CREATE TABLE IF NOT EXISTS messages (message_id SERIAL PRIMARY KEY, sender_id INTEGER REFERENCES users ON DELETE CASCADE, text TEXT NOT NULL, date_time TIMESTAMP NOT NULL)');
-const createUsersChats = pool.query('CREATE TABLE IF NOT EXISTS users_chats (user_id INTEGER REFERENCES users ON DELETE CASCADE, chat_id INTEGER REFERENCES chats ON DELETE CASCADE)');
-const createChatMessages = pool.query('CREATE TABLE IF NOT EXISTS chat_messages (message_id INTEGER REFERENCES messages ON DELETE CASCADE, chat_id INTEGER REFERENCES chats ON DELETE CASCADE)');
-const createDialogs = pool.query('CREATE TABLE IF NOT EXISTS dialogs (dialog_id SERIAL PRIMARY KEY, user1_id INTEGER REFERENCES users ON DELETE CASCADE, user2_id INTEGER REFERENCES users ON DELETE CASCADE)');
-const createDialogMessages = pool.query('CREATE TABLE IF NOT EXISTS dialog_messages (dialog_id INTEGER REFERENCES dialogs ON DELETE CASCADE, message_id INTEGER REFERENCES messages ON DELETE CASCADE)');
+function createUsers() {
+    return pool.query('CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, login VARCHAR(50) UNIQUE, password CHAR(60) NOT NULL, alias VARCHAR(50) NOT NULL)');
+}
+function createChats() {
+    return pool.query('CREATE TABLE IF NOT EXISTS chats (chat_id SERIAL PRIMARY KEY, name VARCHAR(50) NOT NULL)');
+}
+function createMessages() {
+    return pool.query('CREATE TABLE IF NOT EXISTS messages (message_id SERIAL PRIMARY KEY, sender_id INTEGER REFERENCES users ON DELETE CASCADE, text TEXT NOT NULL, date_time TIMESTAMP NOT NULL)');
+}
+function createUsersChats() {
+    return pool.query('CREATE TABLE IF NOT EXISTS users_chats (user_id INTEGER REFERENCES users ON DELETE CASCADE, chat_id INTEGER REFERENCES chats ON DELETE CASCADE)');
+}
+function createChatMessages() {
+    return pool.query('CREATE TABLE IF NOT EXISTS chat_messages (message_id INTEGER REFERENCES messages ON DELETE CASCADE, chat_id INTEGER REFERENCES chats ON DELETE CASCADE)');
+}
+function createDialogs() {
+    return pool.query('CREATE TABLE IF NOT EXISTS dialogs (dialog_id SERIAL PRIMARY KEY, user1_id INTEGER REFERENCES users ON DELETE CASCADE, user2_id INTEGER REFERENCES users ON DELETE CASCADE)');
+}
+function createDialogMessages() {
+    return pool.query('CREATE TABLE IF NOT EXISTS dialog_messages (dialog_id INTEGER REFERENCES dialogs ON DELETE CASCADE, message_id INTEGER REFERENCES messages ON DELETE CASCADE)');
+}
 
-// insertion doesn't work
-//const addUser = pool.query('INSERT INTO dialogs VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT user_id FROM users WHERE login=$2)) RETURNING dialog_id', ['q@q.q', 'kek@ke.k']);
-//const addUser = pool.query('INSERT INTO users_chats VALUES((SELECT user_id FROM users WHERE login=\'kek@ke.k\'), (SELECT chat_id FROM chats WHERE name=\'test\'))');
+// function update() {
+//     return pool.query('UPDATE users SET password=$1', ['$2a$10$SLCHkfzWlvMWZjbrNv5WG.3CqWLYM/y6EhlAipwMebSXSYa/bsQQ2']);
+// }
+// update()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   })
+
+// var query = pool.query('SELECT * FROM users');
+// query.then(res => {
+//     res.rows.forEach(row => console.log(row));
+// })
+
+// createUsers()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+// createChats()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+// createMessages()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+// createUsersChats()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+// createChatMessages()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+// createDialogs()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+// createDialogMessages()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+
+// saveUser('q@q.q', '123', 'q')
+//   .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+// saveUser('kek@ke.k', '123','kek')
+//   .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+// function addDialog() {
+//     return pool.query('INSERT INTO dialogs(user1_id, user2_id) VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT user_id FROM users WHERE login=$2)) RETURNING dialog_id', ['q@q.q', 'kek@ke.k']);
+// }
+// addDialog()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+// saveChat('InnoChat')
+//   .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//  });
+// function addChatUser() {
+//     return pool.query('INSERT INTO users_chats(user_id, chat_id) VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT chat_id FROM chats WHERE name=$2))', ['q@q.q', 'InnoChat']);
+// }
+// addChatUser()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+// function addAnotherChatUser() {
+//     return pool.query('INSERT INTO users_chats(user_id, chat_id) VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT chat_id FROM chats WHERE name=$2))', ['kek@ke.k', 'InnoChat']);
+// }
+// addAnotherChatUser()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
 
 function saveUser(login, password, alias) {
     return pool.query('INSERT INTO users(login, password, alias) VALUES($1, $2, $3) RETURNING user_id', [login, password, alias]);
