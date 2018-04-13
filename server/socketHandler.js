@@ -7,7 +7,7 @@ var clients = {};
 module.exports = (wss, user_id) => {
 
   wss.on('connection', function connection(ws) {
-
+    console.log("Adding a new client: ", user_id)
     clients[user_id] = ws;
 
     ws.on('message', function(msg) {
@@ -22,14 +22,14 @@ module.exports = (wss, user_id) => {
       if (message.type === 'dialog'){
           let receiver = db.findDialogReceiver(message.id, message.sender_id);
           
-          console.log(receiver);
-
           receiver
             .then(res => {
               if (res.rowCount > 0) {
+                // TODO: определиться, что делать, если клиента нет в списке активных сокетов
                 clients[res.rows[0].user_id].send(JSON.stringify(message));
               }
               else {
+                console.log("Results:", res)
                 console.log("Cannot find receiver in dialog!", message.id);
               }
             })

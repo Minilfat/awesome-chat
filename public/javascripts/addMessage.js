@@ -1,3 +1,5 @@
+// import { isTSTypeParameterDeclaration } from "babel-types";
+
 // Connection establishment
 
 const connection = new WebSocket(`ws://127.0.0.1:3000`);
@@ -12,7 +14,7 @@ connection.onerror = function (error) {
 };
 
 connection.onmessage = function (message) {
-    console.log("Got a message! ");
+    console.log("Got a message! ", message);
     var json = {};
     try {
         json = JSON.parse(message.data);
@@ -20,6 +22,7 @@ connection.onmessage = function (message) {
         console.log('Not a valid JSON ', message.data);
     }
     // Text, chatid, sender, date, type
+    console.log("Got a message, I am a ", this._getSenderId)
     addMessage(json.text, json.chatid, json.sender, json.date, json.type);
     //addMessage(message)
 }
@@ -44,6 +47,7 @@ function addMessage(text, chatid, sender, date, type) {
         var openedChatId = input.value;
         // If the chat is already opened add a message to a screen
         // Else - notify user about new message
+
         if (openedChatId === chatid) {
             showMessageOnScreen(text, sender);
         } else {
@@ -52,16 +56,26 @@ function addMessage(text, chatid, sender, date, type) {
         // If text was not passed to a function, user sent a message
     } else if (typeof text === 'undefined') {
         text = document.getElementById('send-message-text').value;         // Take user input message and show it
-        showMessageOnScreen(text);                                        // Add here info about current user
+        // showMessageOnScreen(text);                                        // Add here info about current user
         document.getElementById('send-message-text').value = '';         // Clear input
         // TODO initialize type sender
         let msgInfo = _getActiveChatIdType();
         chatid = msgInfo.chatid;
         type = msgInfo.type;
-        // connection.send(text)
-        connection.send(JSON.stringify({type: type, text: text, sender_id: sender, id: chatid}));
+        let senderId = this._getSenderId();
+        
+        showMessageOnScreen(text, this._getMyName(), new Date())
+        connection.send(JSON.stringify({type: type, text: text, sender_id: senderId, id: chatid}));
         // TODO add url for sending message to backend
     }
+}
+
+function _getSenderId() {
+    return document.getElementById('user-id').value;
+}
+
+function _getMyName() {
+    return document.getElementById('user-name').value;
 }
 
 function _getActiveChatIdType() {
@@ -84,12 +98,12 @@ function _getActiveChatIdType() {
  * @param {Object} sender - Senders name, photo and other information.
  */
 
-function showMessageOnScreen(text, sender, message_id, message_time) {
+function showMessageOnScreen(text, sender, message_time) {
     var input = $('#messages-body-id');
     // var i = 0;
 
     // Add message body to a chat
-    input.append('<div id=\'' + message_id + '\' class="message col-sm-7">\n' +
+    input.append('<div class="message col-sm-7">\n' +
         '        <div>\n' +
         '            <img class="inline contact-photo" src="images/ellipse.svg">\n' +
         '            <div class="inline message-text">\n' +
@@ -112,7 +126,7 @@ function showContact(contact) {
     var contactBody = $('#contact-list-panel-id');
 
     contactBody.append("<div class=\"chat-list-panel\">\n" +
-        "  <div class=\"contact inline\" id=" + contact.id + " onclick=\"chooseChat(this, " + contact.id + ")\">\n" +
+        "  <div class=\"contact inline\" id=" + contact.id+contact.type + " onclick=\"chooseChat(this, '" + contact.id+contact.type + "')\">\n" +
         "    <div><img class=\"inline contact-photo\" src=\"images/ellipse.svg\"/>\n" +
         "      <div class=\"inline chat-title\">\n" +
         "        <p>"+ contact.name +"</p>\n" +
@@ -132,22 +146,23 @@ function showContact(contact) {
 
 function chooseChat(el, id) {
     var activeChats = document.getElementsByClassName('contact active');
+    console.log("active chat: ", activeChats);
     Array.prototype.forEach.call(activeChats, function (el) {
         el.classList.remove('active');
     });
     activeChat = document.getElementById(id);
     activeChat.classList.add('active');
-    // Add all messages to the main screen
+    // TODO Add all messages to the main screen
     document.getElementById('messages-body-id').innerHTML = '';
     let chatParams = _getActiveChatIdType();
     loadChatMessages(chatParams.chatid, chatParams.type, (messages) => {
-        messages.forEach(mes => showMessageOnScreen(mes.text, mes.sender, mes.id, mes.time));
+        messages.forEach(mes => showMessageOnScreen(mes.text, mes.sender, mes.time));
     });
 }
 
 $(document).ready(function () {
     $.get('/contacts', function(contacts) {
-            console.log(contacts);
+            console.log('Contacts:', contacts);
             let tmp = [...JSON.parse(contacts)];
             tmp.forEach(contact => showContact(contact))
     })

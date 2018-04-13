@@ -12,17 +12,11 @@ block content
         div(class="col-sm-2 left-panel")
 
             div(class="contact-list-panel" id="contact-list-panel-id")
-                // To use backend contacts: var contacts = loadUserContacts();
-                // +contact(contact.name, contact.id)
-                //- -var contacts = loadUserContacts.call(this)
-                button(onclick='loadUserContacts()') 
-                //- -var contacts = ['Lidiya', 'Lidiya', 'Lidiya', 'Lidiya', 'Lidiya']
-                //- each contact in contacts
-                //-     //- +contact(contact.name, contact.id)
-                //-     +contact(contact, i++)
+                input(type="hidden" id="user-id" value=user)
+                input(type="hidden" id="user-name" value=name)
         div(id="header")
             div(class="col-sm-4")
-                h4 Hello, Lidiya!
+                h4 Hello, #{name}!
             div(class="search-container col-sm-offset-5")
                 input(type="text" name="search" placeholder="Search..")
             div(class="logout-link-container")

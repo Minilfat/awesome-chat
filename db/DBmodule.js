@@ -146,10 +146,10 @@ function findChatUsers(chat_id, sender_id) {
     return pool.query('SELECT user_id FROM users_chats WHERE users_chats.chat_id=$1 AND users_chats.user_id!=$2', [chat_id, sender_id]);
 }
 
-function findDialogReceiver(dialog_id, receiver_id) {
-    return pool.query('SELECT user1_id as user_id FROM (SELECT * FROM dialogs WHERE dialog_id=$1) AS dialog_users WHERE user2_id=$2 \
+function findDialogReceiver(dialog_id, sender_id) {
+    return pool.query('SELECT user1_id as user_id FROM dialogs WHERE dialog_id=$1 AND user2_id=$2 \
                        UNION \
-                       SELECT user2_id as user_id FROM (SELECT * FROM dialogs WHERE dialog_id=$1) AS dialog_users WHERE user1_id=$2', [dialog_id, receiver_id]);
+                       SELECT user2_id as user_id FROM dialogs WHERE dialog_id=$1 AND user1_id=$2', [dialog_id, sender_id]);
 }
 
 function findMessage(message_id) {
