@@ -1,5 +1,3 @@
-// import { isTSTypeParameterDeclaration } from "babel-types";
-
 // Connection establishment
 
 const connection = new WebSocket(`ws://127.0.0.1:3000`);
@@ -25,7 +23,7 @@ connection.onmessage = function (message) {
     console.log("Got a message, I am a ", this._getSenderId)
     addMessage(json.text, json.chatid, json.sender, json.date, json.type);
     //addMessage(message)
-}
+};
 
 var activeChat;
 
@@ -47,7 +45,6 @@ function addMessage(text, chatid, sender, date, type) {
         var openedChatId = input.value;
         // If the chat is already opened add a message to a screen
         // Else - notify user about new message
-
         if (openedChatId === chatid) {
             showMessageOnScreen(text, sender);
         } else {
@@ -63,7 +60,7 @@ function addMessage(text, chatid, sender, date, type) {
         chatid = msgInfo.chatid;
         type = msgInfo.type;
         let senderId = this._getSenderId();
-        
+
         showMessageOnScreen(text, this._getMyName(), new Date())
         connection.send(JSON.stringify({type: type, text: text, sender_id: senderId, id: chatid}));
         // TODO add url for sending message to backend
@@ -107,7 +104,11 @@ function showMessageOnScreen(text, sender, message_time) {
         '        <div>\n' +
         '            <img class="inline contact-photo" src="images/ellipse.svg">\n' +
         '            <div class="inline message-text">\n' +
-        '                <p>' + sender + '</p><p>' + text + message_time + '</p></div></div></div>');
+        '                <p>' + sender + '</p><p>' + text + message_time + '</p>' +
+        '            </div>' +
+        '        </div>' +
+        '</div>' +
+        '</div>');
 
     var objDiv = document.getElementById('messages-body-id');
     objDiv.scrollTop = objDiv.scrollHeight;
