@@ -69,7 +69,11 @@ module.exports = (wss) => {
           db.findChatUsers(message.id, message.sender_id)
             .then(res => {
               if (res.rowCount > 0) {
-                res.rows.forEach(row => clients[row.user_id].send(JSON.stringify(message)));
+                res.rows.forEach(row => {
+                  if (typeof clients[row.user_id] !== 'undefined') {
+                    clients[row.user_id].send(JSON.stringify(message));
+                  }
+                });
 
                 db.saveMessage(message.sender_id, message.text, message.time)
                   .then(res => {
