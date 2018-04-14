@@ -23,8 +23,6 @@ module.exports = (wss, user_id) => {
           db.findDialogReceiver(message.id, message.sender_id)
             .then(res => {
               if (res.rowCount > 0) {
-                console.log('clients', clients);
-                console.log('receiver id', res.rows[0].user_id);
                 // TODO: определиться, что делать, если клиента нет в списке активных сокетов
                 clients[res.rows[0].user_id].send(JSON.stringify(message));
 
