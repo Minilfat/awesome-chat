@@ -56,6 +56,12 @@ function checkAndRegister(req, email, password, done) {
           let id = res.rows[0].user_id;
           console.log('Id of a new user is ' + id);
           let user = new User(id, email, getHash(password), alias);
+
+          DBmodule.saveChatUser(alias, 1)
+            .catch(err => {
+              console.error('Error adding new user to common chat', err.stack)
+              return done(err);
+            });
           return done(null, user);
         })
         .catch(err => {

@@ -80,8 +80,8 @@ function saveChat(name) {
     return pool.query('INSERT INTO chats(name) VALUES($1) RETURNING chat_id', [name]);
 }
 
-function saveChatUser(login, chat_name) {
-    return pool.query('INSERT INTO users_chats(user_id, chat_id) VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT chat_id FROM chats WHERE name=$2))', [login, chat_name]);
+function saveChatUser(alias, chat_id) {
+    return pool.query('INSERT INTO users_chats(user_id, chat_id) VALUES((SELECT user_id FROM users WHERE alias=$1), $2)', [alias, chat_id]);
 }
 // saveChatUser()
 // .catch(err =>  {

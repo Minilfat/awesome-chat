@@ -9,7 +9,7 @@ function loadChatMessages(paramId, paramType, done) {
 }
 
 
-function sendMessage(reciever) {
+function sendMessage(receiver) {
     // TODO write url
 }
 
