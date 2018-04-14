@@ -12,6 +12,8 @@ block content
         div(class="col-sm-2 left-panel")
 
             div(class="contact-list-panel" id="contact-list-panel-id")
+                div(class="search-container")
+                    input(type="text" name="search" placeholder="Search..")
                 // To use backend contacts: var contacts = loadUserContacts();
                 // +contact(contact.name, contact.id)
                 //- -var contacts = loadUserContacts.call(this)
@@ -21,12 +23,10 @@ block content
                 //-     //- +contact(contact.name, contact.id)
                 //-     +contact(contact, i++)
         div(id="header")
-            div(class="col-sm-4")
+            div(class="col-sm-11")
                 h4 Hello, Lidiya!
-            div(class="search-container col-sm-offset-5")
-                input(type="text" name="search" placeholder="Search..")
-            div(class="logout-link-container")
-                a(href="#" class="logout-link") Logout
+            div(class="logout-link-container col-sm-1")
+                div(class="logout_btn" onclick='logout()')
         div(class="inline chats-body" id="messages-body-id")
             p You should choose a chat
         div(class="message-send inline")

@@ -200,3 +200,12 @@ input[type=text]:focus {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
+
+
+.logout_btn {
+  margin: 0;
+  display: inline-block;
+  height: 26px;
+  width: 26px;
+  background-image: url('../images/logout_btn.svg');
+}

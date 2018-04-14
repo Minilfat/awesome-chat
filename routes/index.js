@@ -67,7 +67,7 @@ module.exports = (app) => {
         });
     });
 
-    app.get('/contact-list', authRequired(), (req, res) =>  {
+    app.get('/contact-list', (req, res) =>  {
         res.locals.contacts = ['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat'];
         res.render('contact-list', {...res.locals});
     });
