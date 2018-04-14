@@ -3,4 +3,5 @@ mixin contacts
         input(type="hidden" id="user-id" value=user)
         input(type="hidden" id="user-name" value=name)
         div(class="search-container")
-            input(type="text" name="search" placeholder="Search.." class="search_input")
+            input(type="text" name="search" id="search_input_text_id" placeholder="Search.." class="search_input")
+            button(onclick="addNewContact()") +

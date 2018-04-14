@@ -11,6 +11,7 @@ const changeAlias = require('../controllers/profileEditor').changeAlias;
 const changeEmail = require('../controllers/profileEditor').changeEmail;
 const getContacts = require('../controllers/contacts');
 const getMessages = require('../controllers/messages');
+const saveChatUser = require('../db/DBmodule').saveChatUser;
 
 
 
@@ -29,7 +30,7 @@ module.exports = (app) => {
 
     app.get('/register', (req, res) => res.render('register', {message: req.flash('message')}));
     app.post('/register', passport.authenticate('register', {
-        successRedirect: '/chat',
+        successRedirect: '/contact-list',
         failureRedirect: '/register',
         failureFlash : true
     }));
@@ -100,6 +101,32 @@ module.exports = (app) => {
         })
     });
 
+    app.post('/newChatUser', authRequired(), (req, res) => {
+        let alias = req.body.alias;
+        let chat_id = req.body.chat_id;
+        saveChatUser(alias, chat_id)
+            .then(result => {
+                console.log('Row(s) inserted: ' + res.rowCount);
+                res.redirect('/contact-list');
+            })
+            .catch(err => {
+                console.log('Error happened: ', err);
+            })
+    });
 
+    app.post('/createDialog', authRequired(), (req, res) => {
+        let alias = req.body.alias;
+        let chat_id = req.body.chat_id;
+        saveChatUser(alias, chat_id)
+            .then(result => {
+                console.log('Row(s) inserted: ' + res.rowCount);
+                res.redirect('/contact-list');
+            })
+            .catch(err => {
+                console.log('Error happened: ', err);
+            })
+    });
+
+    
 
 };

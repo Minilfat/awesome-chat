@@ -152,6 +152,16 @@ function showContact(contact) {
         "</div>")
 }
 
+function addNewContact() {
+    console.log("Adding a contact")
+    let activeChat = _getActiveChatIdType().chatid;
+    let name = document.getElementById("search_input_text_id").value
+
+    $.post("/newChatUser", {alias: name, chat_id: activeChat});
+
+    console.log("Sending: ", activeChat, " ", name)
+}
+
 /**
  * Toggle active chats.
  * @param {Object} el - The div element which defines the chat.
