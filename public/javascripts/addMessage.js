@@ -91,10 +91,10 @@ function _getActiveChatIdType() {
     let inputs = activeChat.getElementsByTagName('input');
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].classList.contains('chat_id')) {
-            answer.chatid = inputs[i].value
+            answer.chatid = inputs[i].value;
         }
         if (inputs[i].classList.contains('chat_type')) {
-            answer.type = inputs[i].value
+            answer.type = inputs[i].value;
         }
     }
     return answer;
@@ -173,13 +173,58 @@ function chooseChat(el, id) {
         console.log('params: ',chatParams.chatid, chatParams.type, " messages: "+ messages);
         messages.forEach(mes => showMessageOnScreen(mes.text, mes.sender, mes.time));
     });
+
+    let chatView = document.getElementById('chat_view');
+    if (chatView) {
+        var backBtn = document.getElementById('back_btn');
+        var contactsView = document.getElementById('contacts_view');
+
+        showChat();
+        hideContacts();
+        showBackButton();
+
+        function showChat() {
+            backBtn.style.display = 'block';
+            chatView.style.display = 'block';
+        }
+
+        function hideContacts() {
+            contactsView.style.display = 'none';
+        }
+
+        function showBackButton() {
+            backBtn.style.display = 'inline-block';
+        }
+    }
 }
 
 $(document).ready(function () {
-    $.get('/contacts', function(contacts) {
-            console.log('Contacts:', contacts);
-            let tmp = [...JSON.parse(contacts)];
-            tmp.forEach(contact => showContact(contact))
-    })
-})
+    $.get('/contacts', function (contacts) {
+        console.log('Contacts:', contacts);
+        let tmp = [...JSON.parse(contacts)];
+        tmp.forEach(contact => showContact(contact));
+    });
+});
 
+function backToContactsClick() {
+    let backBtn = document.getElementById('back_btn');
+    let chatView = document.getElementById('chat_view');
+    let contactsView = document.getElementById('contacts_view');
+
+    hideBackButton();
+    hideChat();
+    showContacts();
+
+    function showContacts() {
+        contactsView.style.display = 'block';
+    }
+
+    function hideChat() {
+        backBtn.style.display = 'none';
+        chatView.style.display = 'none';
+    }
+
+    function hideBackButton() {
+        backBtn.style.display = 'none';
+    }
+}
