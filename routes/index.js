@@ -4,6 +4,7 @@ const passport = require('passport');
 
 const {error404} = require('../controllers/errors');
 const authRequired = require('../middlewares/isAuthRequired');
+const isMobile = require('../middlewares/isMobile');
 const logout = require('../controllers/logout');
 const changePassword = require('../controllers/profileEditor').changePassword;
 const changeAlias = require('../controllers/profileEditor').changeAlias;
@@ -68,8 +69,13 @@ module.exports = (app) => {
     });
 
     app.get('/contact-list', authRequired(), (req, res) =>  {
-        res.locals.contacts = ['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat'];
-        res.render('contact-list', {...res.locals});
+        if (!isMobile(req)) {
+            res.render('contact-list', {user: req.user.id, name: req.user.alias});
+        } else {
+            res.render('mob-contacts', {user: req.user.id, name: req.user.alias});
+            console.log('device is mobile');
+        }
+
     });
 
     app.get('/contacts', authRequired(), (req, res) => {
