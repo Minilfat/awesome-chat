@@ -20,13 +20,27 @@ module.exports = (wss, user_id) => {
       console.log(message);
   
       if (message.type === 'dialog'){
-          let receiver = db.findDialogReceiver(message.id, message.sender_id);
-          
-          receiver
+          db.findDialogReceiver(message.id, message.sender_id)
             .then(res => {
               if (res.rowCount > 0) {
                 // TODO: определиться, что делать, если клиента нет в списке активных сокетов
                 clients[res.rows[0].user_id].send(JSON.stringify(message));
+
+                db.saveMessage(message.sender_id, message.text, message.date)
+                  .then(res => {
+                    if (res.rowCount > 0){
+                      db.saveDialogMessage(message.id, res.rows[0].message_id)
+                        .catch(err =>  {
+                          console.error('Error saving dialog message', err.stack);
+                        });
+                    }
+                    else {
+                      console.log("Cannot find just sent message !", message.id);
+                    }
+                  })
+                  .catch(err =>  {
+                    console.error('Error saving message!', err.stack);
+                  });
               }
               else {
                 console.log("Results:", res)
@@ -39,14 +53,26 @@ module.exports = (wss, user_id) => {
       }
       else if (message.type === 'chat') {
   
-          let users = db.findChatUsers(message.id, message.sender_id);
-
-          console.log(users);
-
-          users
+          db.findChatUsers(message.id, message.sender_id)
             .then(res => {
               if (res.rowCount > 0) {
                 res.rows.forEach(row => clients[row.user_id].send(message));
+
+                db.saveMessage(message.sender_id, message.text, message.date)
+                  .then(res => {
+                    if (res.rowCount > 0){
+                      db.saveChatMessage(res.rows[0].message_id, message.id)
+                        .catch(err =>  {
+                          console.error('Error saving chat message', err.stack);
+                        });
+                    }
+                    else {
+                      console.log("Cannot find just sent message !", message.id);
+                    }
+                  })
+                  .catch(err =>  {
+                    console.error('Error saving message!', err.stack);
+                  });
               }
               else {
                 console.log("Cannot find receivers in this chat!", message.id);
