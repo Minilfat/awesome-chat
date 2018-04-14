@@ -8,9 +8,12 @@ module.exports = (wss) => {
 
   wss.on('connection', function connection(ws, req) {
 
-    let user_id = Number(req.url.replace("/", ""));
+    let user_data = req.url.replace("/", "").split("%20");
+    let user_id = Number(user_data[0]);
+    let user_name = user_data[1];
     console.log('Clients url ',req.url);
     console.log("Adding a new client: ", user_id)
+    console.log("Adding a new name: ", user_name)
     clients[user_id] = ws;
     // console.log(ws);
 
@@ -19,8 +22,8 @@ module.exports = (wss) => {
       console.log("Message is received!", message);
 
       let date = new Date();
-      message.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-
+      message.time = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      message.user_name = user_name;
       console.log(message);
   
       console.log("Sender id: ", message.sender_id)
@@ -32,9 +35,11 @@ module.exports = (wss) => {
                 console.log('Message should receive this client: ', res.rows[0].user_id);
                 // TODO: определиться, что делать, если клиента нет в списке активных сокетов
                 console.log("sending message to: ", res.rows[0].user_id);
+                console.log('******************** ', message, '******************** ');
+
                 clients[res.rows[0].user_id].send(JSON.stringify(message));
 
-                db.saveMessage(message.sender_id, message.text, message.date)
+                db.saveMessage(message.sender_id, message.text, message.time)
                   .then(res => {
                     if (res.rowCount > 0){
                       db.saveDialogMessage(message.id, res.rows[0].message_id)
@@ -66,7 +71,7 @@ module.exports = (wss) => {
               if (res.rowCount > 0) {
                 res.rows.forEach(row => clients[row.user_id].send(JSON.stringify(message)));
 
-                db.saveMessage(message.sender_id, message.text, message.date)
+                db.saveMessage(message.sender_id, message.text, message.time)
                   .then(res => {
                     if (res.rowCount > 0){
                       db.saveChatMessage(res.rows[0].message_id, message.id)

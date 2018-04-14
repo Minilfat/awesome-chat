@@ -1,7 +1,7 @@
 // Connection establishment
 let connection;
 $(document).ready(function () {
-   connection  = new WebSocket(`ws://10.240.19.194:3000/`+_getSenderId());
+   connection  = new WebSocket(`ws://10.240.19.194:3000/`+_getSenderId()+" "+_getMyName());
    connection.onopen = function () {
     // First we want users to enter their names
     console.log('Connection is opened');
@@ -20,7 +20,7 @@ $(document).ready(function () {
             console.log('Not a valid JSON ', message.data);
         }
         // Text, chatid, sender, date, type
-        addMessage(json.text, json.id, json.sender_id, json.date, json.type);
+        addMessage(json.text, json.id, json.user_name, json.time, json.type);
         //addMessage(message)
     };
 });
@@ -54,7 +54,7 @@ function addMessage(text, chatid, sender, date, type) {
         console.log("Chat id: ", chatid)
         if (chatInfo.chatid === chatid && chatInfo.type === type) {
             console.log("Show message")
-            showMessageOnScreen(text, sender);
+            showMessageOnScreen(text, sender, date)
         } else {
             //handleNotification(chatid, text);
             alert("gotcha")
@@ -170,7 +170,8 @@ function chooseChat(el, id) {
     document.getElementById('messages-body-id').innerHTML = '';
     let chatParams = _getActiveChatIdType();
     loadChatMessages(chatParams.chatid, chatParams.type, (messages) => {
-        console.log('params: ',chatParams.chatid, chatParams.type, " messages: "+ messages);
+        console.log('params: ',chatParams.chatid, chatParams.type, " messages: "+ messages[0]);
+        console.log('message: ',messages[0].text, messages[0].sender, messages[0].time);
         messages.forEach(mes => showMessageOnScreen(mes.text, mes.sender, mes.time));
     });
 }

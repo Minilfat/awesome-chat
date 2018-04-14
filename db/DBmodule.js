@@ -184,7 +184,7 @@ function getDialogMessages(dialog_id) {
 }
 
 function getChatMessages(chat_id) {
-    return pool.query('SELECT m.message_id as id, u.alias as sender, m.text as text, m.date_time as messageTime \
+    return pool.query('SELECT m.message_id as id, u.alias as sender, m.text as text, m.date_time as mes_time \
     FROM messages as m \
       INNER JOIN users u ON m.sender_id = u.user_id \
     WHERE message_id IN (SELECT message_id FROM chat_messages WHERE chat_id=$1)', [chat_id]);
