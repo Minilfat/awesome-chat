@@ -75,7 +75,7 @@ module.exports = (app) => {
             res.render('mob-contacts', {user: req.user.id, name: req.user.alias});
             console.log('device is mobile');
         }
-        
+
     });
 
     app.get('/contacts', authRequired(), (req, res) => {

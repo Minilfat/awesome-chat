@@ -14,7 +14,7 @@ module.exports = (req, resp) => {
     // console.log('Type: ' + req.body.type);
     // console.log(req.user.id)
     if (isMobile(req)) {
-        
+
     }
 
     if (req.body.type === 'dialog') {
@@ -23,9 +23,9 @@ module.exports = (req, resp) => {
                 if (checkResult(result)) {
                     let messages = [];
                     result.rows.map(row => messages.push(new Message(row.id, row.sender, row.text, row.mes_time)));
-                    resp.send(JSON.stringify(messages));
+                    resp.json(messages);
                 } else {
-                    resp.send(JSON.stringify([]));
+                    resp.json("[]");
                 }
             })
             .catch(err => {
