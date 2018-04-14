@@ -12,6 +12,6 @@ function sendMessage(reciever) {
 }
 
 function logout() {
-    // alert('logout');
+    alert('logout');
     $.get('/logout');
 }
