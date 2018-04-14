@@ -1,6 +1,7 @@
 const Message = require('../models/Message');
 const getDialogMessages = require('../db/DBmodule').getDialogMessages;
 const getChatMessages = require('../db/DBmodule').getChatMessages;
+const isMobile = require('../middlewares/isMobile');
 
 function checkResult(result) {
     console.info("Rows fetched: " + result.rowCount);
@@ -12,6 +13,9 @@ module.exports = (req, resp) => {
     // console.log(req.body.id)
     // console.log('Type: ' + req.body.type);
     // console.log(req.user.id)
+    if (isMobile(req)) {
+        
+    }
 
     if (req.body.type === 'dialog') {
         getDialogMessages(req.body.id)
