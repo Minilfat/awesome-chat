@@ -8,6 +8,8 @@ function loadChatMessages(paramId, paramType, done) {
     });
 }
 
+
+
 function sendMessage(reciever) {
     // TODO write url
 }
