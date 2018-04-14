@@ -1,19 +1,22 @@
 .stripes-background {
     width: 100vw;
     height: 100vh;
-    background-image: repeating-linear-gradient(45deg, #ccc, #ccc 30px, #4c394b 30px, #4c394b 60px);
+    background-color: #f9f9f9;
 }
 
 .center-card {
+    height: 80vh;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 30px;
     position: relative;
     margin: 0 auto;
-    width: 300px;
+    width: 50vw;
     display: flex;
     align-items: center;
 }
 
 .center-card a {
-    color: white;
+    color: #000000;
 }
 
 .center-card a:hover {

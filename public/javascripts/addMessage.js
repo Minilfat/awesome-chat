@@ -25,7 +25,7 @@ $(document).ready(function () {
     };
 });
 
- 
+
 
 
 
@@ -70,7 +70,7 @@ function addMessage(text, chatid, sender, date, type) {
         chatid = msgInfo.chatid;
         type = msgInfo.type;
         let senderId = this._getSenderId();
-        
+
         showMessageOnScreen(text, this._getMyName(), new Date())
         console.log("Sending message from ", senderId, " to the chat id: ", chatid)
         connection.send(JSON.stringify({type: type, text: text, sender_id: senderId, id: chatid}));
@@ -108,14 +108,13 @@ function _getActiveChatIdType() {
 
 function showMessageOnScreen(text, sender, message_time) {
     var input = $('#messages-body-id');
-    // var i = 0;
 
+    let formatMesTime = message_time.getHours() + ':' + message_time.getMinutes()
     // Add message body to a chat
-    input.append('<div class="message col-sm-7">\n' +
+    input.append('<div class="message col-sm-5">\n' +
         '        <div>\n' +
-        '            <img class="inline contact-photo" src="images/ellipse.svg">\n' +
-        '            <div class="inline message-text">\n' +
-        '                <p>' + sender + '</p><p>' + text + message_time + '</p>' +
+        '            <div class="inline message-text col-sm-12">\n' +
+        '                <div class="inline"><p class="sender-name inline">' + sender + '</p> <p class="inline time">' + formatMesTime + '</p></p></div><p>' + text + '</p>' +
         '            </div>' +
         '        </div>' +
         '</div>' +
@@ -140,7 +139,7 @@ function showContact(contact) {
 
     contactBody.append("<div class=\"chat-list-panel\">\n" +
         "  <div class=\"contact inline\" id=" + contact.id+contact.type + " onclick=\"chooseChat(this, '" + contact.id+contact.type + "')\">\n" +
-        "    <div><img class=\"inline contact-photo\" src=\"images/ellipse.svg\"/>\n" +
+        "    <div>" +
         "      <div class=\"inline chat-title\">\n" +
         "        <p>"+ contact.name +"</p>\n" +
         "      </div>\n" +

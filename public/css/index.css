@@ -1,27 +1,29 @@
 .stripes-background {
     width: 100vw;
     height: 100vh;
-    background-image: repeating-linear-gradient(45deg, #ccc, #ccc 30px, #4c394b 30px, #4c394b 60px);
+    background-color: #f9f9f9;
+    /*background: url("../images/light-background.png") no-repeat;*/
 }
 
 .label {
     font-size: xx-large;
-    color: white;
-    text-shadow: 0 0 25px white, 0 0 25px white; /* Параметры тени */
 }
 
 .login-form {
+    opacity: .8;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 30px;
     position: relative;
     margin: 0 auto;
-    width: 400px;
+    width: 500px;
     display: flex;
     align-items: center;
 }
 
 .login-form-wrapper a {
-    color: white;
+    /*color: white;*/
 }
 
 .login-form-wrapper a:hover {
-     color: white;
+     /*color: white;*/
 }
