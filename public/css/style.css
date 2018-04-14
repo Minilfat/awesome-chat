@@ -44,10 +44,6 @@ a {
 
 /* ----- Contacts list panel (right panel) ------ */
 .left-panel {
-  /*padding: 0 !important;
-  min-width: 20vw;
-  height: 100vh;
-  */
   height: 100%;
 }
 
@@ -63,23 +59,22 @@ a {
 }
 
 .contact {
-  border-bottom: 1px solid #7a6879;
-  padding: 10px 20px;
+  padding-top: 7px;
   display: flex;
   align-items: center;
   font-weight: 400;
 }
 
 .contact.active {
-  background-color: #4c9589;
+  background-color: #27aea6;
 }
 
 .contact.active:hover {
-  background-color: #4c9589;
+  background-color: #27aea6;
 }
 
 .contact.active:active {
-  background-color: #4c9589;
+  background-color: #27aea6;
 }
 
 .chat-title {
@@ -88,7 +83,7 @@ a {
 
 .contact:hover {
   cursor: pointer;
-  background-color: #352834;
+  background-color: rgba(43, 0, 43, 0.54);
 }
 
 .contact-photo {
@@ -107,39 +102,45 @@ a {
 .header_panel {
   padding: 10px;
   height: 8vh;
-  background-color: #4c004c;
-  color: #ffffff;
-  border-bottom: 1px solid #000000;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e8e8e8;
+  display: flex;
+  align-items: center;
 }
 
 /* Search */
 
 .search-sontainer {
   width: 150px;
-  margin: 0 15px;
+  margin: 10vh 15px 0 0;
 }
 
 .search_input {
+  margin: 10vh 15px;
   background-image: url('../images/searchicon.svg');
   width: 70%;
-  padding: 10px 10px 10px 35px !important;
+  padding: 10px 10x 10px 35px !important;
   background-position: 10px 10px;
   background-repeat: no-repeat;
   -webkit-transition: width 0.4s ease-in-out;
   transition: width 0.4s ease-in-out;
 }
 
+.sender-name {
+  font-weight: bold;
+}
+
 .search_input:focus {
-  width: 100%;
+  width: 90%;
   outline: none;
 }
 
 
 input[type=text] {
-  margin: 5px;
-  padding: 10px;
-  border: 2px solid #d6d6d6;
-  border-radius: 4px;
+  color: #ffffff;
+  padding: 10px 10px 10px 30px;
+  border: 1px solid #c7c7c7;
+  border-radius: 3px;
   font-size: 13px;
   background-color: transparent;
 }
@@ -148,7 +149,7 @@ input[type=text] {
 .chats-body {
   overflow: scroll;
   height: 80vh;
-  border-bottom: 1px solid rebeccapurple;
+  /*border-bottom: 1px solid rebeccapurple;*/
 }
 
 #send-message-text {
@@ -171,6 +172,10 @@ input[type=text] {
 .message-text {
   color: #7a6879;
   font-size: 13px;
+}
+
+.time {
+  margin-left: 20px;
 }
 
 #send-message-btn {
