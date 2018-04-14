@@ -24,12 +24,12 @@ a {
 }
 
 .texter {
-    margin:5px;
+  margin:5px;
 }
 
 .texter__textarea {
-    min-height: 30px;
-    resize: vertical;
+  min-height: 30px;
+  resize: vertical;
 }
 
 .inline {
@@ -44,15 +44,21 @@ a {
 
 /* ----- Contacts list panel (right panel) ------ */
 .left-panel {
-  padding: 0 !important;
-  height: 100vh;
+  /*padding: 0 !important;
   min-width: 20vw;
+  height: 100vh;
+  */
+  height: 100%;
   background-color: #4c394b;
   color: #ffffff;
 }
 
+.right-panel {
+  height: 100%;
+}
+
+
 .contact-list-panel {
-  margin-top: 50px;
 }
 
 .contact {
@@ -97,18 +103,12 @@ a {
 }
 
 /* ----- Header panel ------ */
-#header {
-  margin: 0 0 0 20vw;
-  padding: 0;
-  width: 80vw;
+.header_panel {
+  padding: 10px;
   height: 8vh;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #d6d6d6;
-}
-
-.logout-link-container {
-  margin: 0 15px;
+  background-color: #4c004c;
+  color: #ffffff;
+  border-bottom: 1px solid #000000;
 }
 
 /* Search */
@@ -117,39 +117,37 @@ a {
   width: 150px;
   margin: 0 15px;
 }
-input[type=text] {
-  margin-top: 4px;
-  padding: 10px 10px 10px 35px !important;
-  width: 70%;
-  border: 2px solid #d6d6d6;
-  border-radius: 4px;
-  font-size: 13px;
-  background-color: transparent;
+
+.search_input {
   background-image: url('../images/searchicon.svg');
+  width: 70%;
+  padding: 10px 10px 10px 35px !important;
   background-position: 10px 10px;
   background-repeat: no-repeat;
-  padding: 12px 20px 12px 40px;
   -webkit-transition: width 0.4s ease-in-out;
   transition: width 0.4s ease-in-out;
 }
 
-input[type=text]:focus {
+.search_input:focus {
   width: 100%;
   outline: none;
 }
-/* When the input field gets focus, change its width to 100% */
-input[type=text]:focus {
-  width: 100%;
-  outline: none;
 
+
+input[type=text] {
+  margin: 5px;
+  padding: 10px;
+  border: 2px solid #d6d6d6;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: transparent;
 }
 
 /* ----- Messages panel ------ */
 .chats-body {
   overflow: scroll;
-  width: 80vw;
   height: 80vh;
-  border-bottom: 1px solid #dcdcdc;
+  border-bottom: 1px solid rebeccapurple;
 }
 
 #send-message-text {
@@ -200,7 +198,6 @@ input[type=text]:focus {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
-
 
 .logout_btn {
   margin: 0;
