@@ -45,8 +45,6 @@ a {
 /* ----- Contacts list panel (right panel) ------ */
 .left-panel {
   height: 100%;
-  background-color: #4D394B;
-  color: #ffffff;
 }
 
 .right-panel {
@@ -55,6 +53,9 @@ a {
 
 
 .contact-list-panel {
+  background-color: #4c394b;
+  color: #ffffff;
+  height:100%;
 }
 
 .contact {
@@ -179,7 +180,6 @@ input[type=text] {
 
 #send-message-btn {
   margin: -40px 0 0 14px;
-  color: red;
 }
 
 #send-message-btn:hover {

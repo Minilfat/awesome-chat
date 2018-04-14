@@ -5,9 +5,9 @@ const pool = new Pool(config.get('db'));
 
 pool.connect();
 
-// function clean() {
-//     return pool.query('DROP TABLE users_chats, dialogs;');
-// }
+function clean() {
+    return pool.query('DROP TABLE users, chats, messages, users_chats, chat_messages, dialogs, dialog_messages;');
+}
 // clean()
 //   .catch(err =>  {
 //     console.error('Error executing query', err.stack);
@@ -35,18 +35,6 @@ function createDialogMessages() {
     return pool.query('CREATE TABLE IF NOT EXISTS dialog_messages (dialog_id INTEGER REFERENCES dialogs ON DELETE CASCADE, message_id INTEGER REFERENCES messages ON DELETE CASCADE)');
 }
 
-// function update() {
-//     return pool.query('UPDATE users SET password=$1', ['$2a$10$SLCHkfzWlvMWZjbrNv5WG.3CqWLYM/y6EhlAipwMebSXSYa/bsQQ2']);
-// }
-// update()
-// .catch(err =>  {
-//     console.error('Error executing query', err.stack);
-//   })
-
-// var query = pool.query('SELECT * FROM users');
-// query.then(res => {
-//     res.rows.forEach(row => console.log(row));
-// })
 
 // createUsers()
 // .catch(err =>  {
@@ -84,42 +72,6 @@ function createDialogMessages() {
 //   });
 
 
-// saveUser('q@q.q', '123', 'q')
-//   .catch(err =>  {
-//     console.error('Error executing query', err.stack);
-//   });
-// saveUser('kek@ke.k', '123','kek')
-//   .catch(err =>  {
-//     console.error('Error executing query', err.stack);
-//   });
-
-// function addDialog() {
-//     return pool.query('INSERT INTO dialogs(user1_id, user2_id) VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT user_id FROM users WHERE login=$2)) RETURNING dialog_id', ['q@q.q', 'kek@ke.k']);
-// }
-// addDialog()
-// .catch(err =>  {
-//     console.error('Error executing query', err.stack);
-//   });
-
-// saveChat('InnoChat')
-//   .catch(err =>  {
-//     console.error('Error executing query', err.stack);
-//  });
-// function addChatUser() {
-//     return pool.query('INSERT INTO users_chats(user_id, chat_id) VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT chat_id FROM chats WHERE name=$2))', ['q@q.q', 'InnoChat']);
-// }
-// addChatUser()
-// .catch(err =>  {
-//     console.error('Error executing query', err.stack);
-//   });
-// function addAnotherChatUser() {
-//     return pool.query('INSERT INTO users_chats(user_id, chat_id) VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT chat_id FROM chats WHERE name=$2))', ['kek@ke.k', 'InnoChat']);
-// }
-// addAnotherChatUser()
-// .catch(err =>  {
-//     console.error('Error executing query', err.stack);
-//   });
-
 function saveUser(login, password, alias) {
     return pool.query('INSERT INTO users(login, password, alias) VALUES($1, $2, $3) RETURNING user_id', [login, password, alias]);
 }
@@ -128,8 +80,32 @@ function saveChat(name) {
     return pool.query('INSERT INTO chats(name) VALUES($1) RETURNING chat_id', [name]);
 }
 
-function saveMessage(login, text='', date_time=0) {
-    return pool.query('INSERT INTO messages VALUES($1, $2, $3)', [login, text, date_time]);
+function saveChatUser(login, chat_name) {
+    return pool.query('INSERT INTO users_chats(user_id, chat_id) VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT chat_id FROM chats WHERE name=$2))', [login, chat_name]);
+}
+// saveChatUser()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+function saveChatMessage(message_id, chat_id) {
+    return pool.query('INSERT INTO chat_messages(message_id, chat_id) VALUES($1, $2)', [message_id, chat_id]);
+}
+
+function saveDialog(login1, login2) {
+    return pool.query('INSERT INTO dialogs(user1_id, user2_id) VALUES((SELECT user_id FROM users WHERE login=$1), (SELECT user_id FROM users WHERE login=$2)) RETURNING dialog_id', [login1, login2]);
+}
+// saveDialog()
+// .catch(err =>  {
+//     console.error('Error executing query', err.stack);
+//   });
+
+function saveDialogMessage(dialog_id, message_id) {
+    return pool.query('INSERT INTO dialog_messages(dialog_id, message_id) VALUES($1, $2)', [dialog_id, message_id]);
+}
+
+function saveMessage(sender_id, text='', date_time=0) {
+    return pool.query('INSERT INTO messages(sender_id, text, date_time) VALUES($1, $2, $3) RETURNING message_id', [sender_id, text, date_time]);
 }
 
 
@@ -217,6 +193,10 @@ function getChatMessages(chat_id) {
 module.exports = {
     saveUser,
     saveChat,
+    saveChatUser,
+    saveChatMessage,
+    saveDialog,
+    saveDialogMessage,
     saveMessage,
     findUser,
     findChat,
