@@ -25,6 +25,7 @@ module.exports = (wss, user_id) => {
           receiver
             .then(res => {
               if (res.rowCount > 0) {
+
                 // TODO: определиться, что делать, если клиента нет в списке активных сокетов
                 clients[res.rows[0].user_id].send(JSON.stringify(message));
               }

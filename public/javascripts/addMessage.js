@@ -1,10 +1,11 @@
 // Connection establishment
 
-const connection = new WebSocket(`ws://127.0.0.1:3000`);
+const connection = new WebSocket(`ws://10.240.19.194:3000/`+ this._getSenderId());
 
 connection.onopen = function () {
     // First we want users to enter their names
     console.log('Connection is opened');
+
 };
 
 connection.onerror = function (error) {
@@ -20,9 +21,9 @@ connection.onmessage = function (message) {
         console.log('Not a valid JSON ', message.data);
     }
     // Text, chatid, sender, date, type
-    console.log("Got a message, I am a ", this._getSenderId)
-    addMessage(json.text, json.chatid, json.sender, json.date, json.type);
-    //addMessage(message)
+    console.log("Got a message, I am a ", this._getSenderId())
+
+    addMessage(json.text, json.chatid, json.sender_id, json.date, json.type);
 };
 
 var activeChat;
@@ -41,19 +42,22 @@ function addMessage(text, chatid, sender, date, type) {
     // If the text and chatid are defined, message came from backend
     if (typeof text !== 'undefined' && chatid !== 'undefined') {
         // Check the opened chatid
-        var input = activeChat.getElementsByTagName('input')[0];
-        var openedChatId = input.value;
+        let input = activeChat.getElementsByTagName('input')[0];
+        let openedChatId = input.value;
+        let chatInfo = _getActiveChatIdType();
         // If the chat is already opened add a message to a screen
         // Else - notify user about new message
-        if (openedChatId === chatid) {
+
+        if (chatInfo.chatid === chatid ) {
+            console.log("Show message")
             showMessageOnScreen(text, sender);
         } else {
-            handleNotification(chatid, text);
+            //handleNotification(chatid, text);
+            alert("gotcha")
         }
         // If text was not passed to a function, user sent a message
     } else if (typeof text === 'undefined') {
         text = document.getElementById('send-message-text').value;         // Take user input message and show it
-        // showMessageOnScreen(text);                                        // Add here info about current user
         document.getElementById('send-message-text').value = '';         // Clear input
         // TODO initialize type sender
         let msgInfo = _getActiveChatIdType();
@@ -97,14 +101,13 @@ function _getActiveChatIdType() {
 
 function showMessageOnScreen(text, sender, message_time) {
     var input = $('#messages-body-id');
-    // var i = 0;
 
+    let formatMesTime = message_time.getHours() + ':' + message_time.getMinutes()
     // Add message body to a chat
-    input.append('<div class="message col-sm-7">\n' +
+    input.append('<div class="message col-sm-5">\n' +
         '        <div>\n' +
-        '            <img class="inline contact-photo" src="images/ellipse.svg">\n' +
-        '            <div class="inline message-text">\n' +
-        '                <p>' + sender + '</p><p>' + text + message_time + '</p>' +
+        '            <div class="inline message-text col-sm-12">\n' +
+        '                <div class="inline"><p class="sender-name inline">' + sender + '</p> <p class="inline time">' + formatMesTime + '</p></p></div><p>' + text + '</p>' +
         '            </div>' +
         '        </div>' +
         '</div>' +
@@ -120,7 +123,7 @@ function showMessageOnScreen(text, sender, message_time) {
  */
 
 function handleNotification(chatid, text) {
-    alert('new message from chat', chatid, ' Message: ', text);
+    //alert('new message from chat', chatid, ' Message: ', text);
 }
 
 function showContact(contact) {
@@ -128,7 +131,7 @@ function showContact(contact) {
 
     contactBody.append("<div class=\"chat-list-panel\">\n" +
         "  <div class=\"contact inline\" id=" + contact.id+contact.type + " onclick=\"chooseChat(this, '" + contact.id+contact.type + "')\">\n" +
-        "    <div><img class=\"inline contact-photo\" src=\"images/ellipse.svg\"/>\n" +
+        "    <div>" +
         "      <div class=\"inline chat-title\">\n" +
         "        <p>"+ contact.name +"</p>\n" +
         "      </div>\n" +
