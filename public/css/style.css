@@ -221,3 +221,7 @@ input[type=text] {
     display: inline-block;
     width:5%;
 }
+
+.hidden {
+    visibility: hidden;
+}

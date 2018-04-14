@@ -4,6 +4,7 @@ include ./contact
 include ./message
 include ./contacts
 include ./chat
+include ./toolbar
 
 block style
     link(rel='stylesheet', href='css/mob.css')
@@ -19,15 +20,7 @@ block customScript
 block content
     block content
         div(class="main")
-            div(class="toolbar")
-                div(class="control_elements")
-                    div(class="back_btn" onclick='backToContactsClick()' id="back_btn")
-                div(class="logo" )
-                    +label
-                div(class="control_elements")
-                    a(href="/logout")
-                        div(class="logout_btn" onclick='logout()')
-
+            +toolbar
             div(class="contacts" id="contacts_view")
                 +contacts
             div(class="chatik" id="chat_view")
