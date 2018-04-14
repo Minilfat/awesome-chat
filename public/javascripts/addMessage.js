@@ -1,29 +1,33 @@
 // Connection establishment
-
-const connection = new WebSocket(`ws://127.0.0.1:3000`);
-
-connection.onopen = function () {
+let connection;
+$(document).ready(function () {
+   connection  = new WebSocket(`ws://10.240.19.194:3000/`+_getSenderId());
+   connection.onopen = function () {
     // First we want users to enter their names
     console.log('Connection is opened');
-};
+    };
 
-connection.onerror = function (error) {
-    console.log('Error occured. Please, check connection with external server. Error:', error);
-};
+    connection.onerror = function (error) {
+        console.log('Error occured. Please, check connection with external server. Error:', error);
+    };
 
-connection.onmessage = function (message) {
-    console.log("Got a message! ", message);
-    var json = {};
-    try {
-        json = JSON.parse(message.data);
-    } catch (e) {
-        console.log('Not a valid JSON ', message.data);
-    }
-    // Text, chatid, sender, date, type
-    console.log("Got a message, I am a ", this._getSenderId)
-    addMessage(json.text, json.chatid, json.sender, json.date, json.type);
-    //addMessage(message)
-};
+    connection.onmessage = function (message) {
+        console.log("Got a message! ", message);
+        var json = {};
+        try {
+            json = JSON.parse(message.data);
+        } catch (e) {
+            console.log('Not a valid JSON ', message.data);
+        }
+        // Text, chatid, sender, date, type
+        addMessage(json.text, json.id, json.sender_id, json.date, json.type);
+        //addMessage(message)
+    };
+});
+
+ 
+
+
 
 var activeChat;
 
@@ -43,15 +47,21 @@ function addMessage(text, chatid, sender, date, type) {
         // Check the opened chatid
         var input = activeChat.getElementsByTagName('input')[0];
         var openedChatId = input.value;
+        let chatInfo = _getActiveChatIdType();
         // If the chat is already opened add a message to a screen
         // Else - notify user about new message
-        if (openedChatId === chatid) {
+        console.log("Open chat: ", openedChatId)
+        console.log("Chat id: ", chatid)
+        if (chatInfo.chatid === chatid && chatInfo.type === type) {
+            console.log("Show message")
             showMessageOnScreen(text, sender);
         } else {
-            handleNotification(chatid, text);
+            //handleNotification(chatid, text);
+            alert("gotcha")
         }
         // If text was not passed to a function, user sent a message
     } else if (typeof text === 'undefined') {
+        console.log("text is undefined")
         text = document.getElementById('send-message-text').value;         // Take user input message and show it
         // showMessageOnScreen(text);                                        // Add here info about current user
         document.getElementById('send-message-text').value = '';         // Clear input
@@ -60,8 +70,9 @@ function addMessage(text, chatid, sender, date, type) {
         chatid = msgInfo.chatid;
         type = msgInfo.type;
         let senderId = this._getSenderId();
-
+        
         showMessageOnScreen(text, this._getMyName(), new Date())
+        console.log("Sending message from ", senderId, " to the chat id: ", chatid)
         connection.send(JSON.stringify({type: type, text: text, sender_id: senderId, id: chatid}));
         // TODO add url for sending message to backend
     }
@@ -119,8 +130,9 @@ function showMessageOnScreen(text, sender, message_time) {
  * @param {string} chatid - The unique number/name of chat.
  */
 
-function handleNotification(chatid, text) {
-    alert('new message from chat', chatid, ' Message: ', text);
+function handleNotification(chatid, text, sender) {
+    console.log('new message from chat ', chatid, ' Message: ', text, 'from sender ', sender)
+    // alert('new message from chat', chatid, ' Message: ', text);
 }
 
 function showContact(contact) {
@@ -157,6 +169,7 @@ function chooseChat(el, id) {
     document.getElementById('messages-body-id').innerHTML = '';
     let chatParams = _getActiveChatIdType();
     loadChatMessages(chatParams.chatid, chatParams.type, (messages) => {
+        console.log('params: ',chatParams.chatid, chatParams.type, " messages: "+ messages);
         messages.forEach(mes => showMessageOnScreen(mes.text, mes.sender, mes.time));
     });
 }

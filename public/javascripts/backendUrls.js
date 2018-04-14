@@ -4,7 +4,7 @@ $(document).ready();
 function loadChatMessages(paramId, paramType, done) {
     $.post('/messages', {id: paramId, type: paramType}, function(messages) {
         console.log(messages);
-        done(JSON.parse(messages));
+        done(messages);
     });
 }
 

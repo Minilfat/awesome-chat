@@ -94,7 +94,7 @@ module.exports = function(passport, wss) {
           return done(null, false, req.flash('message', 'Invalid password or email'));
         }
 
-        socketHandler(wss, user.id);
+        // 
        
         return done(null, user);
       })
@@ -116,7 +116,6 @@ module.exports = function(passport, wss) {
           return done(null, false, req.flash('message', 'User already exists'))
         }
 
-        socketHandler(wss, user.id);
         return done(null, user);
       })
     }
