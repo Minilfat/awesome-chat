@@ -4,11 +4,15 @@ const db = require('../db/DBmodule');
 var clients = {};
 
 
-module.exports = (wss, user_id) => {
+module.exports = (wss) => {
 
-  wss.on('connection', function connection(ws) {
+  wss.on('connection', function connection(ws, req) {
+
+    let user_id = Number(req.url.replace("/", ""));
+    console.log('Clients url ',req.url);
     console.log("Adding a new client: ", user_id)
     clients[user_id] = ws;
+    // console.log(ws);
 
     ws.on('message', function(msg) {
       let message = JSON.parse(msg);
@@ -19,11 +23,15 @@ module.exports = (wss, user_id) => {
 
       console.log(message);
   
+      console.log("Sender id: ", message.sender_id)
       if (message.type === 'dialog'){
           db.findDialogReceiver(message.id, message.sender_id)
             .then(res => {
+              // console.log("Result from db: ", res)
               if (res.rowCount > 0) {
+                console.log('Message should receive this client: ', res.rows[0].user_id);
                 // TODO: определиться, что делать, если клиента нет в списке активных сокетов
+                console.log("sending message to: ", res.rows[0].user_id);
                 clients[res.rows[0].user_id].send(JSON.stringify(message));
 
                 db.saveMessage(message.sender_id, message.text, message.date)
@@ -56,7 +64,7 @@ module.exports = (wss, user_id) => {
           db.findChatUsers(message.id, message.sender_id)
             .then(res => {
               if (res.rowCount > 0) {
-                res.rows.forEach(row => clients[row.user_id].send(message));
+                res.rows.forEach(row => clients[row.user_id].send(JSON.stringify(message)));
 
                 db.saveMessage(message.sender_id, message.text, message.date)
                   .then(res => {
