@@ -96,8 +96,8 @@ module.exports = (app) => {
 
   
     // по этомму маршруту может пройти только авторизованный пользователь
-    app.get('/chat', authRequired(), (req, res) => {
-        res.render('chat', {
+    app.get('/mob-contacts', authRequired(), (req, res) => {
+        res.render('mob-contacts', {
             username: req.user.password,
             info: req.user.id
         });
