@@ -1,6 +1,10 @@
 extends layout
 include ./contacts
 
+block customScript
+    script(src="/javascripts/addMessage.js")
+    script(src="/javascripts/backendUrls.js")
+
 block content
     div(class="main")
         +contacts
