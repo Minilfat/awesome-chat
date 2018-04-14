@@ -38,9 +38,9 @@ module.exports = (req, resp) => {
                 if (checkResult(result)) {
                     let messages = [];
                     result.rows.map(row => messages.push(new Message(row.id, row.sender, row.text, row.mes_time)));
-                    resp.send(JSON.stringify(messages));
+                    resp.json(messages);
                 } else {
-                    resp.send(JSON.stringify([]));
+                    resp.json("[]");
                 }
             })
             .catch(err => {

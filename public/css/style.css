@@ -155,7 +155,6 @@ input[type=text] {
 #send-message-text {
   border: 2px solid #d6d6d6;
   border-radius: 5px;
-  width: 90%;
 }
 
 .message {
@@ -179,7 +178,7 @@ input[type=text] {
 }
 
 #send-message-btn {
-  margin: -40px 0 0 14px;
+  margin: 0 0 0 14px;
 }
 
 #send-message-btn:hover {
@@ -189,9 +188,9 @@ input[type=text] {
 }
 
 .message-send {
-  width: 70vw;
-  padding: 25px;
+    margin: 0 0 0 20px;
   height: 50px;
+  width: 80%;
 }
 
 .center {
@@ -211,4 +210,14 @@ input[type=text] {
   height: 26px;
   width: 26px;
   background-image: url('../images/logout_btn.svg');
+}
+
+.chat_input {
+    display: inline-block;
+    width:95%;
+}
+
+.chat_send_btn {
+    display: inline-block;
+    width:5%;
 }
