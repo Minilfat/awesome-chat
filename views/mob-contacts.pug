@@ -1,10 +1,34 @@
 extends layout
+include ./label
+include ./contact
+include ./message
 include ./contacts
+include ./chat
+
+block style
+    link(rel='stylesheet', href='css/mob.css')
 
 block customScript
     script(src="/javascripts/addMessage.js")
     script(src="/javascripts/backendUrls.js")
+    script(src="/javascripts/mob.js")
+
+
+        //add to contact list panel:
 
 block content
-    div(class="main")
-        +contacts
+    block content
+        div(class="main")
+            div(class="toolbar")
+                div(class="control_elements")
+                    div(class="back_btn" onclick='backToContactsClick()' id="back_btn")
+                div(class="logo" )
+                    +label
+                div(class="control_elements")
+                    a(href="/logout")
+                        div(class="logout_btn" onclick='logout()')
+
+            div(class="contacts" id="contacts_view")
+                +contacts
+            div(class="chatik" id="chat_view")
+                +chat

@@ -1,4 +1,5 @@
 extends layout
+include ./label
 include ./loginForm
 include  ./registerForm
 
@@ -7,7 +8,7 @@ block style
 block content
     div(class="stripes-background")
         div(class="card bg-info text-white login-form center")
-            div(class="label") 🌚Awesome🤘Chat🌝
+            +label
             div(class="card-body")
               div(class="login-form-wrapper")
                   nav

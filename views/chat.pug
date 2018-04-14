@@ -2,7 +2,9 @@ mixin chat
     div(class="row")
         div(class="inline chats-body col-sm-12" id="messages-body-id")
             p You should choose a chat
-    div(class="row")
-        div(class="message-send inline col-sm-12")
-            textarea(type="text" class="inline" id="send-message-text")
-            img(src='../images/send_btn.svg' class='inline' id="send-message-btn" onclick='addMessage()')
+
+    div(class="message-send inline ")
+            div(class="chat_input")
+                input(type="text" class="form-control inline" id="send-message-text")
+            div(class="chat_send_btn")
+                img(src='../images/send_btn.svg' class='inline' id="send-message-btn" onclick='addMessage()')

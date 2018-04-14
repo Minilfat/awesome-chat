@@ -20,7 +20,8 @@ block content
                 div(class="col-sm-11")
                     h2 Hello, #{name}!
                 div(class="logout-link-container col-sm-1")
-                    div(class="logout_btn" onclick='logout()')
+                    a(href="/logout")
+                        div(class="logout_btn" onclick='logout()')
             +chat
     //- script(src="/javascripts/addMessage.js")
     //- script(src="/javascripts/backendUrls.js")

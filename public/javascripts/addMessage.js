@@ -12,7 +12,7 @@ connection.onerror = function (error) {
 };
 
 connection.onmessage = function (message) {
-    console.log("Got a message! ", message);
+    console.log('Got a message! ', message);
     var json = {};
     try {
         json = JSON.parse(message.data);
@@ -20,9 +20,9 @@ connection.onmessage = function (message) {
         console.log('Not a valid JSON ', message.data);
     }
     // Text, chatid, sender, date, type
-    console.log("Got a message, I am a ", this._getSenderId)
+    console.log('Got a message, I am a ', this._getSenderId);
     addMessage(json.text, json.chatid, json.sender, json.date, json.type);
-    //addMessage(message)
+    // AddMessage(message)
 };
 
 var activeChat;
@@ -52,16 +52,16 @@ function addMessage(text, chatid, sender, date, type) {
         }
         // If text was not passed to a function, user sent a message
     } else if (typeof text === 'undefined') {
-        text = document.getElementById('send-message-text').value;         // Take user input message and show it
+        text = document.getElementById('send-message-text').value; // Take user input message and show it
         // showMessageOnScreen(text);                                        // Add here info about current user
-        document.getElementById('send-message-text').value = '';         // Clear input
+        document.getElementById('send-message-text').value = ''; // Clear input
         // TODO initialize type sender
         let msgInfo = _getActiveChatIdType();
         chatid = msgInfo.chatid;
         type = msgInfo.type;
         let senderId = this._getSenderId();
 
-        showMessageOnScreen(text, this._getMyName(), new Date())
+        showMessageOnScreen(text, this._getMyName(), new Date());
         connection.send(JSON.stringify({type: type, text: text, sender_id: senderId, id: chatid}));
         // TODO add url for sending message to backend
     }
@@ -80,10 +80,10 @@ function _getActiveChatIdType() {
     let inputs = activeChat.getElementsByTagName('input');
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].classList.contains('chat_id')) {
-            answer.chatid = inputs[i].value
+            answer.chatid = inputs[i].value;
         }
         if (inputs[i].classList.contains('chat_type')) {
-            answer.type = inputs[i].value
+            answer.type = inputs[i].value;
         }
     }
     return answer;
@@ -97,7 +97,7 @@ function _getActiveChatIdType() {
 
 function showMessageOnScreen(text, sender, message_time) {
     var input = $('#messages-body-id');
-    // var i = 0;
+    // Var i = 0;
 
     // Add message body to a chat
     input.append('<div class="message col-sm-7">\n' +
@@ -126,17 +126,17 @@ function handleNotification(chatid, text) {
 function showContact(contact) {
     var contactBody = $('#contact-list-panel-id');
 
-    contactBody.append("<div class=\"chat-list-panel\">\n" +
-        "  <div class=\"contact inline\" id=" + contact.id+contact.type + " onclick=\"chooseChat(this, '" + contact.id+contact.type + "')\">\n" +
-        "    <div><img class=\"inline contact-photo\" src=\"images/ellipse.svg\"/>\n" +
-        "      <div class=\"inline chat-title\">\n" +
-        "        <p>"+ contact.name +"</p>\n" +
-        "      </div>\n" +
-        "      <input type=\"hidden\" class=\"chat_id\" value=" + contact.id + ">\n" +
-        "      <input type=\"hidden\" class=\"chat_type\" value=" + contact.type + ">\n" +
-        "    </div>\n" +
-        "  </div>\n" +
-        "</div>")
+    contactBody.append('<div class="chat-list-panel">\n' +
+        '  <div class="contact inline" id=' + contact.id + contact.type + ' onclick="chooseChat(this, \'' + contact.id + contact.type + '\')">\n' +
+        '    <div><img class="inline contact-photo" src="images/ellipse.svg"/>\n' +
+        '      <div class="inline chat-title">\n' +
+        '        <p>' + contact.name + '</p>\n' +
+        '      </div>\n' +
+        '      <input type="hidden" class="chat_id" value=' + contact.id + '>\n' +
+        '      <input type="hidden" class="chat_type" value=' + contact.type + '>\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '</div>');
 }
 
 /**
@@ -147,7 +147,7 @@ function showContact(contact) {
 
 function chooseChat(el, id) {
     var activeChats = document.getElementsByClassName('contact active');
-    console.log("active chat: ", activeChats);
+    console.log('active chat: ', activeChats);
     Array.prototype.forEach.call(activeChats, function (el) {
         el.classList.remove('active');
     });
@@ -156,16 +156,61 @@ function chooseChat(el, id) {
     // TODO Add all messages to the main screen
     document.getElementById('messages-body-id').innerHTML = '';
     let chatParams = _getActiveChatIdType();
-    loadChatMessages(chatParams.chatid, chatParams.type, (messages) => {
+    loadChatMessages(chatParams.chatid, chatParams.type, messages => {
         messages.forEach(mes => showMessageOnScreen(mes.text, mes.sender, mes.time));
     });
+
+    let chatView = document.getElementById('chat_view');
+    if (chatView) {
+        var backBtn = document.getElementById('back_btn');
+        var contactsView = document.getElementById('contacts_view');
+
+        showChat();
+        hideContacts();
+        showBackButton();
+
+        function showChat() {
+            backBtn.style.display = 'block';
+            chatView.style.display = 'block';
+        }
+
+        function hideContacts() {
+            contactsView.style.display = 'none';
+        }
+
+        function showBackButton() {
+            backBtn.style.display = 'inline-block';
+        }
+    }
 }
 
 $(document).ready(function () {
-    $.get('/contacts', function(contacts) {
-            console.log('Contacts:', contacts);
-            let tmp = [...JSON.parse(contacts)];
-            tmp.forEach(contact => showContact(contact))
-    })
-})
+    $.get('/contacts', function (contacts) {
+        console.log('Contacts:', contacts);
+        let tmp = [...JSON.parse(contacts)];
+        tmp.forEach(contact => showContact(contact));
+    });
+});
 
+function backToContactsClick() {
+    let backBtn = document.getElementById('back_btn');
+    let chatView = document.getElementById('chat_view');
+    let contactsView = document.getElementById('contacts_view');
+
+    hideBackButton();
+    hideChat();
+    showContacts();
+
+    function showContacts() {
+        contactsView.style.display = 'block';
+    }
+
+    function hideChat() {
+        backBtn.style.display = 'none';
+        chatView.style.display = 'none';
+    }
+
+    function hideBackButton() {
+        backBtn.style.display = 'none';
+    }
+}
