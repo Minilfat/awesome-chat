@@ -21,6 +21,7 @@ const commonData = require('./middlewares/common-data');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({server: server});
+const socketHandler = require('./server/socketHandler');
 
 // Подключаем шаблонизатор
 app.set('view engine', 'pug');
@@ -75,6 +76,7 @@ app.use((err, req, res, next) => {
     res.sendStatus(500);
 });
 
+socketHandler(wss);
 
 server.listen(config.get('port'), () => {
     console.info(`Open http://localhost:${config.get('port')}/`);

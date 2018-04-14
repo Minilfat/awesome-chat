@@ -18,7 +18,9 @@ block content
         div(class="col-sm-9 right-panel")
             div(class="row header_panel")
                 div(class="col-sm-11")
-                    h2 Hello, #{name}!
+                    h5 Hello, #{name}!
+                div(class="col-sm-1")
+                    a(href="/profile") Profile
                 div(class="logout-link-container col-sm-1")
                     a(href="/logout")
                         div(class="logout_btn" onclick='logout()')
