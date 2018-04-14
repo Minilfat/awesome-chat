@@ -1,6 +1,8 @@
 extends layout
 include ./contact
 include ./message
+include ./contacts
+include ./chat
 
 block customScript
     script(src="/javascripts/addMessage.js")
@@ -12,23 +14,13 @@ block customScript
 block content
     div(class="row main")
         div(class="col-sm-3 left-panel")
-            div(class="contact-list-panel" id="contact-list-panel-id")
-                input(type="hidden" id="user-id" value=user)
-                input(type="hidden" id="user-name" value=name)
-                div(class="search-container")
-                    input(type="text" name="search" placeholder="Search.." class="search_input")
+            +contacts
         div(class="col-sm-9 right-panel")
             div(class="row header_panel")
                 div(class="col-sm-11")
                     h2 Hello, #{name}!
                 div(class="logout-link-container col-sm-1")
                     div(class="logout_btn" onclick='logout()')
-            div(class="row")
-                div(class="inline chats-body col-sm-12" id="messages-body-id")
-                    p You should choose a chat
-            div(class="row")
-                div(class="message-send inline col-sm-12")
-                    textarea(type="text" class="inline" id="send-message-text")
-                    img(src='../images/send_btn.svg' class='inline' id="send-message-btn" onclick='addMessage()')
+            +chat
     //- script(src="/javascripts/addMessage.js")
     //- script(src="/javascripts/backendUrls.js")
