@@ -68,7 +68,8 @@ module.exports = (app) => {
     });
 
     app.get('/contact-list', authRequired(), (req, res) =>  {
-        res.render('contact-list', {user: req.user.id, name: req.user.alias});
+        res.locals.contacts = ['Lidiya', 'Zakir', 'Zufar', 'Ilfat', 'Marat'];
+        res.render('contact-list', {...res.locals});
     });
 
     app.get('/contacts', authRequired(), (req, res) => {
