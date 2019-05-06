@@ -1,0 +1,12 @@
+mixin toolbar
+    div(class="toolbar")
+        div(class="control_elements")
+            div(class="back_btn" onclick='backToContactsClick()' id="back_btn")
+        div(class="logo" )
+            +label
+        div(class="control_elements")
+            a(href="/profile")
+                div(class="profile_btn") 👤
+        div(class="control_elements")
+            a(href="/logout")
+                div(class="logout_btn" onclick='logout()')

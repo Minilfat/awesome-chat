@@ -17,7 +17,7 @@
 .logo {
     padding: 0 15px;
     display: inline-flex;
-    width: 80%;
+    width: 70%;
 }
 
 .control_elements {
@@ -31,4 +31,8 @@
     height: 26px;
     width: 26px;
     background-image: url('../images/back_btn.svg');
+}
+
+.profile_btn {
+    font-size: 25px;
 }
